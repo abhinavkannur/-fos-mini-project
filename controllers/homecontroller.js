@@ -24,7 +24,6 @@ const rendersingleproduct=(req,res)=>{
 const render404=(req,res)=>{
   res.render('users/404');
 }
-const renderloginpage=(req,res)=>{
-  res.render('users/loginpage');
-}
-module.exports={renderhomepage,renderabout,rendercontact,rendermenu,rendercart,rendercheckout,rendersingleproduct,render404,renderloginpage};
+
+
+module.exports={renderhomepage,renderabout,rendercontact,rendermenu,rendercart,rendercheckout,rendersingleproduct,render404};

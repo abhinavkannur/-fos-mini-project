@@ -46,7 +46,7 @@ a {
 
 button {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
+	border: 1px solid #ff5e00;
 	background-color: #FF4B2B;
 	color: #FFFFFF;
 	font-size: 12px;
@@ -161,8 +161,8 @@ input {
 
 .overlay {
 	background: #ff5100e3;
-	background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-	background: linear-gradient(to right, #FF4B2B, #FF416C);
+	background: -webkit-linear-gradient(to right, #ff4006, #ff6a41);
+	background: linear-gradient(to right, #FF4B2B, #ff7b00);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 0 0;
@@ -249,4 +249,82 @@ footer i {
 footer a {
     color: #3c97bf;
     text-decoration: none;
+}
+
+/* forgot paasssword  */
+
+/* Responsive Styles */
+#forgot-password-container {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  position: relative;
+  overflow: hidden;
+  width: 400px;
+  max-width: 90%;
+  min-height: 300px;
+  margin: auto;
+  padding: 20px;
+}
+
+#forgot-password-container h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#forgot-password-container p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+#forgot-password-container input {
+  background-color: #eee;
+  border: none;
+  padding: 12px 15px;
+  margin: 10px 0;
+  width: 100%;
+  border-radius: 5px;
+}
+
+#forgot-password-container button {
+  border-radius: 20px;
+  border: 1px solid #FF4B2B;
+  background-color: #ff602b;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 80ms ease-in;
+}
+
+#forgot-password-container button:active {
+  transform: scale(0.95);
+}
+
+#forgot-password-container button:focus {
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  #forgot-password-container {
+    width: 90%;
+    padding: 15px;
+  }
+
+  #forgot-password-container h1 {
+    font-size: 20px;
+  }
+
+  #forgot-password-container p {
+    font-size: 13px;
+  }
+
+  #forgot-password-container button {
+    font-size: 12px;
+    padding: 8px 16px;
+  }
 }
