@@ -7,11 +7,9 @@ const nodemailer=require('nodemailer');
 const crypto=require('crypto');
 const { error } = require('console');
 const { now } = require('mongoose');
-// const { generate } = require('otp-generator');
-
 
 // nodemailer setup
-const tarnsporter=nodemailer.createTransport({
+const transporter=nodemailer.createTransport({
   service: process.env.EMAIL_SERVICE,
   auth:{
     user: process.env.EMAIL_USER,  
@@ -29,19 +27,25 @@ const renderloginpage=(req,res)=>{
 const signup=async(req,res)=>{
   try{
   const{fullName,email,mobile,password}=req.body;
+
   // check if  user alaready exists
+
   const existinguser=await User.findOne({email});
   if(existinguser){
    return res.render('users/loginpage',{message:'user alredy exits'});
   }
+
   //hashpassword and create new user
+
    const hashedpassword=await bcrypt.hash(password,10);
   const user=new User({fullName,email,mobile,password:hashedpassword});
   await user.save();
+
   // generate otp and save it to the user
+
   const otp=crypto.randomInt(100000,1000000);
   user.otp=otp;
-  user.otpExpiry=Date.now()+10*60*1000
+  user.otpExpiry=Date.now()+10 * 60 * 1000 //expire in 10minutes
   await user.save();
 
   const mailOption={
@@ -50,8 +54,9 @@ const signup=async(req,res)=>{
     subject:'OTP VERIFICATION',
     text:`your otp code is ${otp}`,
   };
-  tarnsporter.sendMail(mailOption,(error)=>{
-    if(error){return res.status(500).json({message:'error in otp email'});
+  transporter.sendMail(mailOption,(error)=>{
+    if(error){
+      return res.status(500).json({message:'error in otp email'});
   }
   return res.render('users/otp',{userId:user._id});
   });
@@ -77,19 +82,22 @@ const signup=async(req,res)=>{
       }
   
     //find user in the db
+
     const user=await User.findById(userId);
     if(!user){
       console.log('user not found')
       return res.render('users/otp',{userId,message:'user not found'});
-    
-    }
+     }
+
     //check if the otp has expired
+
       if(Date.now()>user.otpExpiry){
         console.log('otp expired')
         return res.render('users/otp',{userId,message:'otp expired'});
-        
-      }
+        }
+
       //validate the otp
+
     if(user.otp!==fullotp){
       console.log('incorrect otp')
       return res.render('users/otp',{userId,message:'invalid otp'});
@@ -102,11 +110,15 @@ const signup=async(req,res)=>{
     await user.save();
 
     // generate jwt token
+
     const token=jwt.sign({userId:user._id},process.env.JWT_SECRET,{expiresIn:'1h'})
     res.cookie('token',token,{httponly:true});
-    return res.redirect('/');
     console.log('signup sucessfull')
-  }catch(error){
+    return res.redirect('/');
+
+    
+  }
+  catch(error){
     console.error('error verifying OTP:',error);
     res.status(500).send('invalid serever errorr');
   }
@@ -115,18 +127,23 @@ const signup=async(req,res)=>{
 //login
 const login=async(req,res)=>{
   try{
+
     const{email,password}=req.body;
     const user=await User.findOne({email});
+
     if(!user||!user.isVerified){
       return res.render('users/loginpage',{message:'please verify your acc first'})
     }
+
     const ismatch=await bcrypt.compare(password,user.password);
     if(!ismatch){
       return res.render('users/loginpage',{message:'invalid credentials'});
-      
-    }
-    const token=jwt.sign({userId:user.id},process.env.JWT_SECRET,{expiresIn:'1h'})
-  res.cookie('token',token,{httponly:true}).redirect('/');
+       }
+
+    const token=jwt.sign({userId:user._id},process.env.JWT_SECRET,{expiresIn:'1h'})
+  res.cookie('token',token,{httponly:true})
+  console.log('login sucessfull');
+  return res.redirect('/');
   }catch(error){
     console.log(error);
     res.status(500).message('invalid credilince')
@@ -156,7 +173,7 @@ const forgotpassword=async(req,res)=>{
       subject: 'RESET PASSWORD OTP Verification',
       text: `Your OTP code is: ${otp}. It will expire in 10 minutes.`,
     };
-    tarnsporter.sendMail(mailOptions,(error)=>{
+    transporter.sendMail(mailOptions,(error)=>{
       if(error){
         return res.status(500).json({messsage:'error sending otp email'});
       }
@@ -171,11 +188,14 @@ const forgotpassword=async(req,res)=>{
 
     const forgotpasswordotp=async(req,res)=>{
       try{
+
       const{otp,userId}=req.body;
+
       if(!userId){
         console.log('user id  missing')
         return res.status(400).send('user id missing');
       }
+
       const user=await User.findById(userId);
       if(!user){                                                                                                                                                                                                                                                                                                                                                                        
         console.log('user not found')
@@ -187,7 +207,15 @@ const forgotpassword=async(req,res)=>{
       console.log(`OTP Expiry: ${user.otpExpiry}`);
       console.log(`Current Time: ${Date.now()}`);
 
-      const otpString = otp.join('');  // "464733"
+      const otpString = otp.join(''); 
+      
+      if (user.otp !== otpString || user.otpExpiry < Date.now()) {
+  console.log('Invalid or expired OTP');
+  return res.render('users/forgotpassword-otp', {
+    userId: user._id,
+    message: 'Invalid or expired OTP. Please try again.',
+  });
+}
 
       // Optionally, you can convert it to a number if you need
        
@@ -250,9 +278,41 @@ const forgotpassword=async(req,res)=>{
       console.log(err)
       res.status(500).send('internal server errror');
           }
+        };
+        
+       //render profile 
+        const renderprofile=async(req,res)=>{
+          try{
+
+            const token =req.cookies.token;
+            if(!token){
+              return res.status(400).send('unauthorized : no token provided');
+
+            }
+            //verify and decose the token
+            const decoded=jwt.verify(token,process.env.JWT_SECRET);
+            const userId=decoded.userId;
+            console.log(userId);
+
+            if(!userId){
+              return res.status(400).send('unauthorized: user not  logged in');
+            }
+            // fetch user details from database
+            const user= await User.findById(userId);
+            if(!user){
+              return res.status(404).send('user not found');
+            }
+            res.render('users/profile',{user});
+          }catch(err){
+            console.log(err);
+            res.status(500).send('server error')
+          }
+        };
+        
+   
+
+ 
 
 
-   }
 
-
-module.exports={forgotpassword,signup,verifyotp,login,renderloginpage,renderforgotpassword,forgotpasswordotp,resetpassword}
+module.exports={forgotpassword,signup,verifyotp,login,renderloginpage,renderforgotpassword,forgotpasswordotp,resetpassword,renderprofile}

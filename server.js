@@ -3,6 +3,7 @@ const express=require('express')
 const path=require('path');
 const app=express();
 const bodyparser=require('body-parser');
+const cookieparser=require('cookie-parser');
 
 //import routes
 const homeroutes=require('./routes/homeroute');
@@ -20,7 +21,7 @@ app.set('views',path.join(__dirname,'views'));
 //middlewatre to parse incoming request boides
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended:true}));
-
+app.use(cookieparser());
 //server static files
 app.use(express.static(path.join(__dirname,'public')));
 

@@ -1,3 +1,7 @@
+
+// const { use } = require('../routes/homeroute')
+
+
 const renderhomepage=(req,res)=>
 {
   res.render('users/index_2')
