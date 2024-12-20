@@ -30,4 +30,5 @@ const render404=(req,res)=>{
 }
 
 
+
 module.exports={renderhomepage,renderabout,rendercontact,rendermenu,rendercart,rendercheckout,rendersingleproduct,render404};

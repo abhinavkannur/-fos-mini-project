@@ -280,13 +280,13 @@ const forgotpassword=async(req,res)=>{
           }
         };
         
-       //render profile 
-        const renderprofile=async(req,res)=>{
+  //render user dashbord
+        const renderuserdashbord=async(req,res)=>{
           try{
 
             const token =req.cookies.token;
             if(!token){
-              return res.status(400).send('unauthorized : no token provided');
+              return res.redirect('/login')
 
             }
             //verify and decose the token
@@ -302,12 +302,71 @@ const forgotpassword=async(req,res)=>{
             if(!user){
               return res.status(404).send('user not found');
             }
-            res.render('users/profile',{user});
+            res.render('users/userdashbord',{user});
           }catch(err){
             console.log(err);
             res.status(500).send('server error')
           }
         };
+
+        //render profile
+
+      const renderuserprofile=async(req,res)=>{
+        try{
+          const token=req.cookies.token;//extract token from cookies
+          if(!token){
+            return res.status(400).send('unauthorized user:user not loogged in');
+
+          }
+
+          //verify and decoded the token
+          const decoded=jwt.verify(token,process.env.JWT_SECRET);
+          const userId=decoded.userId;
+          console.log(userId);
+
+          const user=await User.findById(userId);
+          if(!user){
+            res.status(400).send('suer not found');
+          }
+          
+          res.render('users/profile',{user});
+        }catch(err){
+          console.log('error in render profile:',err);
+          res.status(500).send('server error');
+        }
+      };
+        
+
+       //update user details
+
+       const updateprofile=async (req,res)=>{
+        try{
+          const token=req.cookies.token;
+          if(!token){
+            return res.status(400).send('unauthorized :user nopt logged in');
+
+      }
+      const decoded=jwt.verify(token,process.env.JWT_SECRET);
+      const userId=decoded.userId;
+      const {fullName,email,mobile}=req.body;
+
+      //updated users details
+      const user=await User.findByIdAndUpdate(userId,{fullName,email,mobile},{new:true}
+
+      );
+      res.render('users/profile', { user, message: 'Profile updated successfully'})
+          
+       }catch(error){
+        console.log(error)
+        res.status(400).send('serever error');
+       }
+      }
+
+      //logout
+      const logout=(req,res)=>{
+        res.clearCookie('token');//
+        res.redirect('/');
+      };
         
    
 
@@ -315,4 +374,4 @@ const forgotpassword=async(req,res)=>{
 
 
 
-module.exports={forgotpassword,signup,verifyotp,login,renderloginpage,renderforgotpassword,forgotpasswordotp,resetpassword,renderprofile}
+module.exports={forgotpassword,signup,verifyotp,login,renderloginpage,renderforgotpassword,forgotpasswordotp,resetpassword,renderuserdashbord,renderuserprofile,updateprofile,logout}

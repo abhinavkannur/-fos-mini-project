@@ -1,8 +1,8 @@
 const express=require('express')
 const router=express.Router();
 
-const {renderhomepage, renderabout, rendercontact, rendermenu,rendercart,rendercheckout,rendersingleproduct,render404}=require('../controllers/homecontroller');
-const {renderloginpage, signup, verifyotp, login,renderforgotpassword, forgotpassword, forgotpasswordotp, resetpassword, renderprofile}=require('../controllers/authcontroller')
+const {renderhomepage, renderabout, rendercontact, rendermenu,rendercart,rendercheckout,rendersingleproduct,render404, }=require('../controllers/homecontroller');
+const {renderloginpage, signup, verifyotp, login,renderforgotpassword, forgotpassword, forgotpasswordotp, resetpassword, renderuserdashbord, renderuserprofile, updateprofile, logout}=require('../controllers/authcontroller')
 router.get('/',renderhomepage);
 router.get('/about',renderabout);
 router.get('/contact',rendercontact);
@@ -19,6 +19,10 @@ router.get('/forgotpassword',renderforgotpassword);
 router.post('/forgotpassword',forgotpassword);
 router.post('/forgotpassword-otp',forgotpasswordotp);
 router.post('/resetpassword',resetpassword)
-router.get('/profile',renderprofile);
+router.get('/user-dashbord',renderuserdashbord);
+router.get('/profile',renderuserprofile)
+router.post('/update-profile',updateprofile)
+router.post('/logout',logout)
+
 
 module.exports=router;
