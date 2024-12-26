@@ -1,0 +1,111 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* Heading */
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  color: #555;
+}
+
+/* User Status */
+.status-active {
+  color: green;
+  font-weight: bold;
+}
+
+.status-blocked {
+  color: red;
+  font-weight: bold;
+}
+
+/* Action Buttons */
+form {
+  display: inline-block;
+}
+
+button {
+  padding: 8px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #ddd;
+}
+
+button.unblock {
+  background-color: green;
+  color: white;
+}
+
+button.unblock:hover {
+  background-color: darkgreen;
+}
+
+button:not(.unblock) {
+  background-color: red;
+  color: white;
+}
+
+button:not(.unblock):hover {
+  background-color: darkred;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  table {
+      font-size: 14px;
+  }
+
+  th, td {
+      padding: 8px;
+  }
+
+  button {
+      font-size: 12px;
+      padding: 6px 12px;
+  }
+}

@@ -29,7 +29,6 @@ const userschema = new mongoose.Schema({
     type: Date, 
     default: null 
   },
-  
   isVerified: { 
     type: Boolean, 
     default: false 
@@ -41,6 +40,10 @@ const userschema = new mongoose.Schema({
   resetPasswordExpiry: { 
     type: Date, 
     default: null 
+  },
+  isBlocked: { 
+    type: Boolean, 
+    default: false 
   }
 });
 

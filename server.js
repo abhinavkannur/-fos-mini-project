@@ -7,6 +7,8 @@ const cookieparser=require('cookie-parser');
 
 //import routes
 const homeroutes=require('./routes/homeroute');
+const adminroutes=require('./routes/adminroutes');
+
 const { default: mongoose } = require('mongoose');
 // db connection
 mongoose.connect(process.env.MONGODB_URI)
@@ -26,7 +28,8 @@ app.use(cookieparser());
 app.use(express.static(path.join(__dirname,'public')));
 
 // using routes
-app.use('/',homeroutes)
+app.use('/',homeroutes);
+app.use('/',adminroutes);
 
 
 //start server

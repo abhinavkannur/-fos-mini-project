@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - View Users</title>
+    <link rel="stylesheet" href="/css/userdetails.css"> <!-- Link to the CSS file -->
+</head>
+<body>
+    <div class="container">
+        <h1>View Users</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach(user => { %>
+                    <tr>
+                        <td><%= user.fullName %></td>
+                        <td><%= user.email %></td>
+                        <td><%= user.mobile %></td>
+                        <td class="<%= user.isBlocked ? 'status-blocked' : 'status-active' %>">
+                            <%= user.isBlocked ? 'Blocked' : 'Active' %>
+                        </td>
+                        <td>
+                            <% if (user.isBlocked) { %>
+                                <form action="/admin/users/unblock/<%= user._id %>" method="POST">
+                                    <button type="submit" class="unblock">Unblock</button>
+                                </form>
+                            <% } else { %>
+                                <form action="/admin/users/block/<%= user._id %>" method="POST">
+                                    <button type="submit">Block</button>
+                                </form>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

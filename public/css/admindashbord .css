@@ -1,0 +1,140 @@
+/* General Styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #343a40;
+  color: #fff;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: fixed;
+}
+
+.sidebar h3 {
+  color: #fff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sidebar a {
+  color: #cfcfcf;
+  text-decoration: none;
+  padding: 10px 20px;
+  display: block;
+}
+
+.sidebar a:hover {
+  background-color: #495057;
+  color: #fff;
+}
+
+.content {
+  margin-left: 250px;
+  padding: 20px;
+  flex: 1;
+}
+
+/* Section Headings */
+section h2 {
+  border-bottom: 2px solid #343a40;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  color: #343a40;
+}
+
+/* Cards */
+.card {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-body h5 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+/* Charts */
+.chart-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.chart {
+  flex: 1;
+  min-width: 300px;
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* Responsive Table */
+.responsive-table {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: transparent;
+}
+
+.table thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody tr td {
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+
+/* Buttons */
+.btn {
+  font-size: 0.9em;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .sidebar {
+      width: 200px;
+  }
+
+  .content {
+      margin-left: 200px;
+  }
+
+  .chart-container {
+      flex-direction: column;
+  }
+}
+
+@media (max-width: 576px) {
+  .sidebar {
+      position: absolute;
+      width: 100%;
+      height: auto;
+  }
+
+  .content {
+      margin-left: 0;
+      margin-top: 200px;
+  }
+
+  .chart {
+      min-width: 100%;
+  }
+}
