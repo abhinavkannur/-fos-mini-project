@@ -364,7 +364,7 @@ const forgotpassword=async(req,res)=>{
 
       //logout
       const logout=(req,res)=>{
-        res.clearCookie('token');//
+        res.clearCookie('token');
         res.redirect('/');
       };
         

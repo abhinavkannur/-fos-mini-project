@@ -43,11 +43,6 @@ const adminlogin=async(req,res)=>{
 
 
 
-// //render admin dashbord
-// const renderadmindashbord=(req,res)=>{
-//   res.render('admindashbord')
-// }
-
 
 
 module.exports={viewusers,renderadminlogin,adminlogin};
