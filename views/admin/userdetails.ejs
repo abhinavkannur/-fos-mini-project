@@ -9,6 +9,13 @@
 <body>
     <div class="container">
         <h1>View Users</h1>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <input type="text" id="search-bar" placeholder="Search users..." onkeyup="filterTable()">
+        </div>
+
+        <!-- Table -->
         <table>
             <thead>
                 <tr>
@@ -19,7 +26,7 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="user-table-body">
                 <% users.forEach(user => { %>
                     <tr>
                         <td><%= user.fullName %></td>
@@ -35,7 +42,7 @@
                                 </form>
                             <% } else { %>
                                 <form action="/admin/users/block/<%= user._id %>" method="POST">
-                                    <button type="submit">Block</button>
+                                    <button type="submit" class="block">Block</button>
                                 </form>
                             <% } %>
                         </td>
@@ -44,5 +51,26 @@
             </tbody>
         </table>
     </div>
+
+    <!-- JavaScript for Search -->
+    <script>
+        function filterTable() {
+            const searchQuery = document.getElementById("search-bar").value.toLowerCase();
+            const rows = document.querySelectorAll("#user-table-body tr");
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll("td");
+                const nameCell = cells[0].textContent.toLowerCase();
+                const emailCell = cells[1].textContent.toLowerCase();
+                const mobileCell = cells[2].textContent.toLowerCase();
+                
+                if (nameCell.includes(searchQuery) || emailCell.includes(searchQuery) || mobileCell.includes(searchQuery)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+    </script>
 </body>
 </html>

@@ -76,30 +76,82 @@ table tr:hover {
   background-color: #e2e6ea; /* Grey hover effect */
 }
 
+/* Image styling */
+table img {
+  border-radius: 10px;
+  object-fit: cover;
+}
+
 /* Button styling */
-table td form button {
+table td .btn {
+  display: inline-block;
   padding: 8px 15px;
-  border: none;
+  text-decoration: none;
   border-radius: 5px;
+  font-size: 14px;
+  text-align: center;
   cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Blue Button */
+table td .btn-warning {
+  background-color: #007bff; /* Blue background for update */
+  color: white;
+}
+
+table td .btn-warning:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Danger Button */
+table td .btn-danger {
+  background-color: #dc3545; /* Red background for delete */
+  color: white;
+}
+
+table td .btn-danger:hover {
+  background-color: #c82333; /* Darker red on hover */
+}
+
+/* Button Actions Alignment */
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* Form styling for delete button */
+form {
+  display: inline;
+}
+
+/* Pagination styling */
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination button {
+  padding: 8px 16px;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: #6c757d;
+  color: white;
   font-size: 14px;
   transition: background-color 0.3s;
 }
 
-table td form button.block {
-  background-color: #dc3545; /* Red background for Block */
+.pagination button.active {
+  background-color: #007bff; /* Blue for active page */
   color: white;
 }
 
-table td form button.block:hover {
-  background-color: #c82333; /* Darker red on hover */
+.pagination button:hover {
+  background-color: #5a6268; /* Darker grey on hover */
 }
 
-table td form button.unblock {
-  background-color: #007bff; /* Blue background for Unblock */
-  color: white;
-}
-
-table td form button.unblock:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+.pagination button:focus {
+  outline: none;
 }

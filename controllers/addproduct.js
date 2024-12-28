@@ -58,4 +58,21 @@ const getproduct=async (req,res)=>{
   }
 };
 
-module.exports={renderaddproductform,addproduct,getproduct}
+//view menu
+
+const viewmenu=async(req,res)=>{
+
+  try{
+    const menuitems= await Product.find().populate('category');
+
+    res.render('admin/viewmenu',{menuitems});
+
+    }catch(error)
+    {
+      console.error('error in fetching aLL PRODUCT DETAILS',error)
+    }
+
+  }
+
+
+module.exports={renderaddproductform,addproduct,getproduct,viewmenu}

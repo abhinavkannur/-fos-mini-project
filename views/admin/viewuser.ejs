@@ -4,12 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - View Users</title>
-    <link rel="stylesheet" href="/path/to/your/styles.css"> <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="/css/userdetails.css"> <!-- Link to the CSS file -->
 </head>
 <body>
     <div class="container">
         <h1>View Users</h1>
-        <table>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <input type="text" id="search-bar" placeholder="Search users..." onkeyup="filterTable()">
+        </div>
+
+        <!-- Table -->
+        <table border="1" cellpadding="10" cellspacing="0">
             <thead>
                 <tr>
                     <th>Username</th>
@@ -19,7 +26,7 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="user-table-body">
                 <% users.forEach(user => { %>
                     <tr>
                         <td><%= user.fullName %></td>
@@ -44,5 +51,26 @@
             </tbody>
         </table>
     </div>
+
+    <!-- JavaScript for Search -->
+    <script>
+        function filterTable() {
+            const searchQuery = document.getElementById("search-bar").value.toLowerCase();
+            const rows = document.querySelectorAll("#user-table-body tr");
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll("td");
+                const nameCell = cells[0].textContent.toLowerCase();
+                const emailCell = cells[1].textContent.toLowerCase();
+                const mobileCell = cells[2].textContent.toLowerCase();
+                
+                if (nameCell.includes(searchQuery) || emailCell.includes(searchQuery) || mobileCell.includes(searchQuery)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+    </script>
 </body>
 </html>

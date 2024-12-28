@@ -38,4 +38,3 @@ app.listen(PORT,()=>{
   console.log('server started');
 })
 
-// .breadcrumb-bg

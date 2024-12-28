@@ -1,7 +1,7 @@
 const express=require('express');
 
 const {  viewusers, renderadminlogin, adminlogin } = require('../controllers/admincontroller');
-const {  renderaddproductform, addproduct } = require('../controllers/addproduct');
+const {  renderaddproductform, addproduct, viewmenu } = require('../controllers/addproduct');
 const { rendercategories, createcategory, deletecategory } = require('../controllers/category');
 const router=express.Router();
 const upload=require('../utils/multer-cloudinary');
@@ -18,7 +18,7 @@ router.get('/users',viewusers);
 router.get('/addproduct',renderaddproductform);
 router.post('/addproduct',upload.single('image'),addproduct);
 
-
+router.get('/viewmenu',viewmenu)
 
 //category
 
