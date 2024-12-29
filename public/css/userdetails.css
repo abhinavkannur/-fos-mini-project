@@ -1,105 +1,79 @@
-/* General body styling */
+/* General Styles */
 body {
   font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 20px;
   background-color: #f4f6f9;
-  color: #333;
+  margin: 0;
 }
 
-/* Container for the page */
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  text-align: center; /* Center the contents of the container */
+  padding: 20px;
 }
 
-/* Heading Styling */
 h1 {
-  font-size: 32px;
-  color: #4e73df; /* Blue color for the heading */
-  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
   text-align: center;
-  font-weight: bold;
-}
-
-/* Search Bar Container */
-.search-container {
   margin-bottom: 20px;
 }
 
 .search-container input {
   width: 50%;
   padding: 10px;
-  font-size: 16px;
-  border: 1px solid #e0e0e0;
-  border-radius: 25px;
-  background-color: #f0f8ff; /* Light blue background */
-  color: #333;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  outline: none;
-  transition: border-color 0.3s;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
-.search-container input:focus {
-  border-color: #4e73df; /* Highlight the border in blue on focus */
-}
-
-/* Table styling */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 table th, table td {
+  padding: 12px;
   text-align: left;
-  padding: 15px;
-  border: 1px solid #f1f1f1;
-  font-size: 14px;
+  border: 1px solid #ddd;
 }
 
 table th {
-  background-color: #4e73df; /* Blue header */
-  color: white;
+  background-color: #f4f4f4;
+}
+
+.status-active {
+  color: green;
   font-weight: bold;
 }
 
-table tr:nth-child(even) {
-  background-color: #f8f9fc; /* Light blue for even rows */
+.status-blocked {
+  color: red;
+  font-weight: bold;
 }
 
-table tr:hover {
-  background-color: #e2e6ea; /* Grey hover effect */
-}
-
-/* Button styling */
-table td form button {
-  padding: 8px 15px;
+.block-unblock-btn {
+  padding: 8px 16px;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
   font-size: 14px;
+  cursor: pointer;
+  color: white;
   transition: background-color 0.3s;
 }
 
-table td form button.block {
-  background-color: #dc3545; /* Red background for Block */
-  color: white;
+.block {
+  background-color: red;
 }
 
-table td form button.block:hover {
-  background-color: #c82333; /* Darker red on hover */
+.block:hover {
+  background-color: darkred;
 }
 
-table td form button.unblock {
-  background-color: #007bff; /* Blue background for Unblock */
-  color: white;
+.unblock {
+  background-color: blue;
 }
 
-table td form button.unblock:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+.unblock:hover {
+  background-color: darkblue;
 }

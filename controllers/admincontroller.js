@@ -11,7 +11,7 @@ const viewusers=async(req,res)=>{
 
   
   const users=await User.find();//fetch all users
-  res.render('admin/userdetails',{users});
+  res.render('admin/viewuser',{users});
 
 }catch(err){
   console.error('error in fetching users:',err);
@@ -33,7 +33,7 @@ const adminlogin=async(req,res)=>{
     //gnerate token
     const token=jwt.sign({adminId:admin._id},process.env.JWT_SECRET,{expiresIn:'1h'});
     res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
-    res.render('admin/admindashbord');
+    res.render('admin/admindash');
 
   }catch(error){
     console.log(error,"error in admin login");
@@ -42,7 +42,45 @@ const adminlogin=async(req,res)=>{
 };
 
 
+//adminlogout
+const adminlogout=(req,res)=>{
+  res.clearCookie('token');
+  res.redirect('/adminlogin');
+}
 
+const renderadmindash=(req,res)=>{
+  res.render('admin/admindash')
+}
 
+const blockuser=async(req,res)=>{
+  try{
+    const userId=req.params.id;
+    const user=await User.findByIdAndUpdate(userId,{isBlocked:true},{new:true});
+    if(user){
+      res.redirect('/viewuser')
+    }else{
+      res.status(404).send('user not found');
+    }
+  }catch(error){
+    console.error(error);
+    res.status(400).send('internal server error');
 
-module.exports={viewusers,renderadminlogin,adminlogin};
+  }
+};
+const unblockuser=async(req,res)=>{
+  try{
+    const userId=req.params.id;
+    const user=await User.findByIdAndUpdate(userId,{isBlocked:false},{new:true});
+
+    if(user){
+      res.redirect('/viewuser');
+    }else{
+      res.status(404).send('user not found');
+    }
+  }catch(err){
+    console.error(err);
+    res.status(500).send('internal server error');
+  }
+}
+
+module.exports={viewusers,renderadminlogin,adminlogin,adminlogout,renderadmindash,blockuser,unblockuser};

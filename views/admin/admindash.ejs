@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../partials/adminpanelheader') %>
+    <link rel="stylesheet" href="/css/admindash.css">
+
+<body>
+    <%- include('../partials/adminnavbar') %>
+  
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Sales Report</h1>
+        <canvas id="salesChart" width="400" height="200"></canvas> <!-- Canvas for Chart -->
+    </div>
+
+    <script>
+        // Sales data example
+        const salesData = {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+            datasets: [{
+                label: 'Monthly Sales ($)',
+                data: [1200, 1900, 3000, 5000, 2200, 3400], // Replace with actual data
+                backgroundColor: 'rgba(54, 162, 235, 0.2)', // Transparent fill
+                borderColor: 'rgba(54, 162, 235, 1)', // Line color
+                borderWidth: 3, // Line thickness
+                tension: 0.4, // Smooth curves
+                pointRadius: 5, // Larger points
+                pointBackgroundColor: 'rgba(75, 192, 192, 1)', // Point fill color
+                pointBorderColor: 'rgba(0, 123, 255, 1)', // Point border color
+            }]
+        };
+
+        const config = {
+            type: 'line', // Changed to line chart
+            data: salesData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 14
+                            },
+                            color: '#333'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Monthly Sales Report',
+                        font: {
+                            size: 20
+                        },
+                        color: '#444'
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: '#666'
+                        },
+                        grid: {
+                            display: false // No vertical grid lines
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#666'
+                        },
+                        grid: {
+                            color: 'rgba(200, 200, 200, 0.2)' // Light horizontal grid lines
+                        }
+                    }
+                }
+            }
+        };
+
+        // Render the chart
+        const salesChart = new Chart(
+            document.getElementById('salesChart'),
+            config
+        );
+    </script>
+</body>
+</html>

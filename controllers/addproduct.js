@@ -75,4 +75,6 @@ const viewmenu=async(req,res)=>{
   }
 
 
+  
+
 module.exports={renderaddproductform,addproduct,getproduct,viewmenu}

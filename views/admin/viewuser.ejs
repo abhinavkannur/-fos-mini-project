@@ -1,76 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - View Users</title>
-    <link rel="stylesheet" href="/css/userdetails.css"> <!-- Link to the CSS file -->
-</head>
-<body>
-    <div class="container">
-        <h1>View Users</h1>
-
+  <%- include('../partials/adminpanelheader') %>
+  <link rel="stylesheet" href="/css/userdetails.css">
+  <link rel="stylesheet" href="/css/admindash.css">
+  
+  <body>
+    <!-- Main Content Section -->
+    <div class="main-content">
+      <!-- Include the top navigation bar -->
+      <%- include('../partials/adminnavbar') %>
+  
+      <div class="container">
+        <h1>User Management</h1>
+  
         <!-- Search Bar -->
         <div class="search-container">
-            <input type="text" id="search-bar" placeholder="Search users..." onkeyup="filterTable()">
+          <input type="text" id="search-bar" placeholder="Search users..." onkeyup="filterTable()">
         </div>
-
+  
         <!-- Table -->
-        <table border="1" cellpadding="10" cellspacing="0">
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Mobile</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="user-table-body">
-                <% users.forEach(user => { %>
-                    <tr>
-                        <td><%= user.fullName %></td>
-                        <td><%= user.email %></td>
-                        <td><%= user.mobile %></td>
-                        <td class="<%= user.isBlocked ? 'status-blocked' : 'status-active' %>">
-                            <%= user.isBlocked ? 'Blocked' : 'Active' %>
-                        </td>
-                        <td>
-                            <% if (user.isBlocked) { %>
-                                <form action="/admin/users/unblock/<%= user._id %>" method="POST">
-                                    <button type="submit" class="unblock">Unblock</button>
-                                </form>
-                            <% } else { %>
-                                <form action="/admin/users/block/<%= user._id %>" method="POST">
-                                    <button type="submit">Block</button>
-                                </form>
-                            <% } %>
-                        </td>
-                    </tr>
-                <% }) %>
-            </tbody>
+        <table>
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Mobile</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="user-table-body">
+            <% users.forEach(user => { %>
+              <tr data-user-id="<%= user._id %>">
+                <td><%= user.fullName %></td>
+                <td><%= user.email %></td>
+                <td><%= user.mobile %></td>
+                <td class="<%= user.isBlocked ? 'status-blocked' : 'status-active' %>">
+                  <%= user.isBlocked ? 'Blocked' : 'Active' %>
+                </td>
+                <td>
+                  <button class="block-unblock-btn <%= user.isBlocked ? 'unblock' : 'block' %>">
+                    <%= user.isBlocked ? 'Unblock' : 'Block' %>
+                  </button>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
         </table>
+      </div>
     </div>
-
-    <!-- JavaScript for Search -->
+  
     <script>
-        function filterTable() {
-            const searchQuery = document.getElementById("search-bar").value.toLowerCase();
-            const rows = document.querySelectorAll("#user-table-body tr");
-
-            rows.forEach(row => {
-                const cells = row.querySelectorAll("td");
-                const nameCell = cells[0].textContent.toLowerCase();
-                const emailCell = cells[1].textContent.toLowerCase();
-                const mobileCell = cells[2].textContent.toLowerCase();
-                
-                if (nameCell.includes(searchQuery) || emailCell.includes(searchQuery) || mobileCell.includes(searchQuery)) {
-                    row.style.display = "";
-                } else {
-                    row.style.display = "none";
-                }
+      document.querySelectorAll('.block-unblock-btn').forEach(button => {
+        button.addEventListener('click', async (event) => {
+          const btn = event.target;
+          const row = btn.closest('tr');
+          const userId = row.getAttribute('data-user-id');
+          const isBlocked = btn.classList.contains('unblock');
+  
+          try {
+            const response = await fetch(`/admin/users/${isBlocked ? 'unblock' : 'block'}/${userId}`, {
+              method: 'POST'
             });
-        }
+  
+            if (response.ok) {
+              // Toggle the button text and styles
+              if (isBlocked) {
+                btn.textContent = 'Block';
+                btn.classList.remove('unblock');
+                btn.classList.add('block');
+                row.querySelector('td:nth-child(4)').textContent = 'Active';
+                row.querySelector('td:nth-child(4)').classList.remove('status-blocked');
+                row.querySelector('td:nth-child(4)').classList.add('status-active');
+              } else {
+                btn.textContent = 'Unblock';
+                btn.classList.remove('block');
+                btn.classList.add('unblock');
+                row.querySelector('td:nth-child(4)').textContent = 'Blocked';
+                row.querySelector('td:nth-child(4)').classList.remove('status-active');
+                row.querySelector('td:nth-child(4)').classList.add('status-blocked');
+              }
+            } else {
+              // Log the error silently
+              console.error('Failed to update user status.');
+            }
+          } catch (error) {
+            console.error(error); // Log the error instead of showing an alert
+          }
+        });
+      });
+  
+      function filterTable() {
+        const searchQuery = document.getElementById("search-bar").value.toLowerCase();
+        const rows = document.querySelectorAll("#user-table-body tr");
+  
+        rows.forEach(row => {
+          const nameCell = row.querySelector("td:first-child").textContent.toLowerCase();
+          const emailCell = row.querySelector("td:nth-child(2)").textContent.toLowerCase();
+  
+          if (nameCell.includes(searchQuery) || emailCell.includes(searchQuery)) {
+            row.style.display = "";
+          } else {
+            row.style.display = "none";
+          }
+        });
+      }
     </script>
-</body>
+  </body>
 </html>

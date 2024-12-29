@@ -1,87 +1,93 @@
-/* adminlogin.css */
-
-/* General Styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+/* General Reset */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
 
+/* Login container */
 .login-container {
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px 30px;
-    max-width: 400px;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
     width: 100%;
-    text-align: center;
+    max-width: 400px;
 }
 
+/* Heading */
 h2 {
-    color: #333333;
-    margin-bottom: 20px;
-    font-size: 24px;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
 }
 
-/* Form Styles */
+/* Form group */
 .form-group {
-    margin-bottom: 15px;
-    text-align: left;
+    margin-bottom: 20px;
 }
 
-label {
+.form-group label {
     display: block;
     font-size: 14px;
-    color: #555555;
+    font-weight: 600;
+    color: #333;
     margin-bottom: 5px;
 }
 
-input[type="email"],
-input[type="password"] {
+.form-group input {
     width: 100%;
     padding: 10px;
-    font-size: 14px;
-    border: 1px solid #cccccc;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    outline: none;
-    transition: border-color 0.3s ease;
-}
-
-input[type="email"]:focus,
-input[type="password"]:focus {
-    border-color: #007BFF;
-}
-
-.login-btn {
-    background-color: #007BFF;
-    color: #ffffff;
-    border: none;
-    padding: 10px 15px;
     font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+.form-group input:focus {
+    border-color: #3a8bcb;
+    outline: none;
+    background-color: #fff;
+}
+
+/* Login Button */
+.login-btn {
     width: 100%;
+    padding: 12px;
+    background-color: #3a8bcb;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .login-btn:hover {
-    background-color: #0056b3;
+    background-color: #3078a6;
 }
 
-/* Footer Styles */
+/* Footer */
 .footer {
-    margin-top: 15px;
+    text-align: center;
+    margin-top: 20px;
     font-size: 14px;
-    color: #777777;
+    color: #666;
 }
 
 .footer a {
-    color: #007BFF;
+    color: #3a8bcb;
     text-decoration: none;
 }
 

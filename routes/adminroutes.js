@@ -1,6 +1,6 @@
 const express=require('express');
 
-const {  viewusers, renderadminlogin, adminlogin } = require('../controllers/admincontroller');
+const {  viewusers, renderadminlogin, adminlogin, adminlogout, renderadmindash, blockuser, unblockuser } = require('../controllers/admincontroller');
 const {  renderaddproductform, addproduct, viewmenu } = require('../controllers/addproduct');
 const { rendercategories, createcategory, deletecategory } = require('../controllers/category');
 const router=express.Router();
@@ -27,6 +27,14 @@ router.post('/categories',createcategory);
 router.post('/categories/:id',deletecategory);
 
 
+//logout
+router.get('/adminlogout',adminlogout)
 
+router.get('/admindash',renderadmindash)
+
+//block and unblock user
+
+router.post('/users/block/:id',blockuser);
+router.post('/users/unblock/:id',unblockuser)
 
 module.exports=router;
