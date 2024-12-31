@@ -51,13 +51,14 @@ const adminlogout=(req,res)=>{
 const renderadmindash=(req,res)=>{
   res.render('admin/admindash')
 }
+//block and unblock users
 
 const blockuser=async(req,res)=>{
   try{
     const userId=req.params.id;
     const user=await User.findByIdAndUpdate(userId,{isBlocked:true},{new:true});
     if(user){
-      res.redirect('/viewuser')
+      res.redirect('/users')
     }else{
       res.status(404).send('user not found');
     }
@@ -73,7 +74,7 @@ const unblockuser=async(req,res)=>{
     const user=await User.findByIdAndUpdate(userId,{isBlocked:false},{new:true});
 
     if(user){
-      res.redirect('/viewuser');
+      res.redirect('/users');
     }else{
       res.status(404).send('user not found');
     }
@@ -83,4 +84,5 @@ const unblockuser=async(req,res)=>{
   }
 }
 
-module.exports={viewusers,renderadminlogin,adminlogin,adminlogout,renderadmindash,blockuser,unblockuser};
+
+module.exports={viewusers,renderadminlogin,adminlogin,adminlogout,renderadmindash,blockuser,unblockuser,};

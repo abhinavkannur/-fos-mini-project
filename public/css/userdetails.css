@@ -52,28 +52,30 @@ table th {
   font-weight: bold;
 }
 
-.block-unblock-btn {
+.blockbtn1 {
+  background-color: red;
+  color: white;
   padding: 8px 16px;
   border: none;
   border-radius: 5px;
-  font-size: 14px;
   cursor: pointer;
-  color: white;
   transition: background-color 0.3s;
 }
 
-.block {
-  background-color: red;
-}
-
-.block:hover {
+.blockbtn1:hover {
   background-color: darkred;
 }
 
-.unblock {
+.unblockbtn1 {
   background-color: blue;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.unblock:hover {
+.unblockbtn1:hover {
   background-color: darkblue;
 }

@@ -130,6 +130,9 @@ const login=async(req,res)=>{
 
     const{email,password}=req.body;
     const user=await User.findOne({email});
+    if(user.isBlocked){
+      return res.render('users/404')
+    }
 
     if(!user||!user.isVerified){
       return res.render('users/loginpage',{message:'please verify your acc first'})

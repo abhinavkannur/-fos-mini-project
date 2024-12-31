@@ -75,6 +75,48 @@ const viewmenu=async(req,res)=>{
   }
 
 
+ const  renderupdatemenu=async(req,res)=>{
+    try{
+      const menuitem=await Product.findById(req.params.id);
+      const categories=await Category.find();
+      if(!menuitem){
+        return res.status(404).send('menu items not found');      
+      }
+      res.render('admin/updatemenu',{menuitem,categories});
+    }catch(error){
+      console.error(error)
+      res.status(404).send('internal server error');
+    }
+  };
+
+const updatemenu=async (req,res)=>{
+  try{
+    const {name,description,price,category,image}=req.body;
+    const updatemenuitems=await Product.findByIdAndUpdate(req.params.id,{name,description,price,category,image},{new:true});
+  
+  if(!updatemenu){
+    return res.status(404).send('menu item not found');
+  }
+  res.redirect('/viewmenu')
+}catch(error){
+  console.error(error)
+  res.status(404).send('interanal server erorr');
+}
+}
+const deletemenuitem=async(req,res)=>{
+  try{
+    const menuitem=await Product.findByIdAndDelete(req.params.id);
+    if(!menuitem){
+      return res.status(404).send('menu item not found');
+    }
+    res.redirect('/viewmenu')
+  }catch(error){
+    console.error(error);
+    res.status(404).send('internal server error');
+  }
+}
+
+
   
 
-module.exports={renderaddproductform,addproduct,getproduct,viewmenu}
+module.exports={renderaddproductform,addproduct,getproduct,viewmenu,renderupdatemenu,updatemenu,deletemenuitem}

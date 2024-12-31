@@ -2755,3 +2755,36 @@ table.order-details tbody td {
   vertical-align: middle;
   width: 100%;
 }
+
+
+/* Add to Cart Button Styles */
+.cart-btn {
+  display: inline-block;
+  background-color: #ff5722; /* Orange background */
+  color: white;              /* White text */
+  font-size: 16px;           /* Font size */
+  font-weight: bold;         /* Bold text */
+  padding: 10px 20px;        /* Padding around the text */
+  border-radius: 5px;        /* Rounded corners */
+  text-decoration: none;     /* Remove underline */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition for hover effects */
+  border: none;              /* Remove default button border */
+}
+
+/* Hover effect */
+.cart-btn:hover {
+  background-color: #e64a19; /* Darker orange on hover */
+  transform: scale(1.05);     /* Slightly enlarge the button */
+}
+
+/* Focus effect for accessibility */
+.cart-btn:focus {
+  outline: none;             /* Remove default focus outline */
+  box-shadow: 0 0 0 2px #ffab91; /* Light orange outline on focus */
+}
+
+/* Active effect (when button is clicked) */
+.cart-btn:active {
+  background-color: #d84315; /* Even darker orange when button is pressed */
+  transform: scale(0.98);     /* Slightly shrink button */
+}

@@ -63,9 +63,13 @@
                                 <p class="product-price">
                                     <span>Full</span> $<%= product.price %>
                                 </p>
-                                <a href="/cart/add/<%= product._id %>" class="cart-btn">
-                                    <i class="fas fa-shopping-cart"></i> Add to Cart
-                                </a>
+                                <!-- Add to Cart Form using POST method -->
+                                <form action="/cart/add" method="POST" style="display: inline;">
+                                    <input type="hidden" name="productId" value="<%= product._id %>">
+                                    <button type="submit" class="cart-btn">
+                                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     <% }); %>
