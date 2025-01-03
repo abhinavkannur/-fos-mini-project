@@ -33,7 +33,7 @@ const addToCart=async(req,res)=>{
     }
 
     //check if the product is alreday inthe cart
-    const productIndex=cart.items.findIndex(item=>{item.productId.toString()===productId});
+    const productIndex=cart.items.findIndex((item)=>{item.productId.toString()===productId});
 
   if(productIndex!==-1){
     //if product alreday exist in cart increase quantity
@@ -46,7 +46,7 @@ const addToCart=async(req,res)=>{
   }
 
   //recalculate  the total price
-  let totalPrice = 0; for (const item of cart.items) { const product = await Product.findById(item.productId); totalPrice += product.price * item.quantity; } cart.totalPrice = totalPrice;
+  cart.totalPrice = 0; for (const item of cart.items) { const product = await Product.findById(item.productId); totalPrice += product.price * item.quantity; } cart.totalPrice = totalPrice;
    await cart.save();
 
    res.redirect('/menu')
@@ -57,24 +57,10 @@ const addToCart=async(req,res)=>{
     res.status(400).send('internal server error')
   }
 }
-const viewcart = async (req, res) => {
-  try {
-    const userId='dummyUserId';
-    const cart = await Cart.findOne({ userId }).populate('items.productId');
-    if (!cart) {
-      return res.render('cart', { cart: [], cartTotal: 0 });
-    }
-    const cartTotal = cart.totalPrice;
-    res.render('cart', { cart: cart.items, cartTotal });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).send('Internal Server Error');
-  }
-};
+
+ 
 
 
-
-
-module.exports={addToCart,viewcart};
+module.exports={addToCart};
 
 
