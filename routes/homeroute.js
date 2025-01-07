@@ -4,6 +4,8 @@ const router=express.Router();
 const {renderhomepage, renderabout, rendercontact,rendercart,rendercheckout,rendersingleproduct,render404, }=require('../controllers/homecontroller');
 const {renderloginpage, signup, verifyotp, login,renderforgotpassword, forgotpassword, forgotpasswordotp, resetpassword, renderuserdashbord, renderuserprofile, updateprofile, logout}=require('../controllers/authcontroller');
 const { getproduct } = require('../controllers/addproduct');
+const cartController=require('../controllers/cartcontrol');
+
 router.get('/',renderhomepage);
 router.get('/about',renderabout);
 router.get('/contact',rendercontact);
@@ -24,6 +26,11 @@ router.get('/user-dashbord',renderuserdashbord);
 router.get('/profile',renderuserprofile)
 router.post('/update-profile',updateprofile)
 router.post('/logout',logout)
+
+router.post('/cart/add',cartController.addcart);
+router.get('/cart1',cartController.rendercart)
+router.post('/cart/increase',cartController.increaseitem);
+router.post('/cart/decrease',cartController.decreaseitem);
 
 
 module.exports=router;

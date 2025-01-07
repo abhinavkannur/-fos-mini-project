@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<!-- header css -->
+<!-- Header -->
 <%- include('../partials/header') %>
 <body>
-    
-    <!--PreLoader-->
+
+    <!-- PreLoader -->
     <div class="loader">
         <div class="loader-inner">
             <div class="circle"></div>
         </div>
     </div>
-    <!--PreLoader Ends-->
-    
-    <!-- navbar -->
-     <%- include('../partials/navbar') %>
-    
-    <!-- breadcrumb-section -->
+    <!-- PreLoader Ends -->
+
+    <!-- Navbar -->
+    <%- include('../partials/navbar') %>
+
+    <!-- Breadcrumb Section -->
     <div class="breadcrumb-section breadcrumb-bg">
         <div class="container">
             <div class="row">
@@ -29,55 +28,52 @@
             </div>
         </div>
     </div>
-    <!-- end breadcrumb section -->
+    <!-- End Breadcrumb Section -->
 
-    <!-- products -->
+    <!-- Products Section -->
     <div class="product-section mt-150 mb-150">
         <div class="container">
 
+            <!-- Product Filters -->
             <div class="row">
                 <div class="col-md-12">
                     <div class="product-filters">
                         <ul>
                             <li class="active" data-filter="*">All</li>
                             <% categories.forEach(category => { %>
-                                <li data-filter=".<%= category.name.toLowerCase() %>"><%= category.name %></li>
+                                <li data-filter=".<%= category.name.toLowerCase() %>">
+                                    <%= category.name %>
+                                </li>
                             <% }); %>
                         </ul>
                     </div>
                 </div>
             </div>
 
-            <div class="container">
-                <div class="row product-lists">
-                    <!-- Loop through products -->
-                    <% products.forEach(product => { %>
-                        <div class="col-lg-4 col-md-6 text-center <%= product.category.name.toLowerCase() %>">
-                            <div class="single-product-item">
-                                <div class="product-image">
-                                    <a href="/product/<%= product._id %>">
-                                        <img src="<%= product.image %>" alt="<%= product.name %>">
-                                    </a>
-                                </div>
-                                <h3><%= product.name %></h3>
-                                <p class="product-price">
-                                    <span>Full</span> $<%= product.price %>
-                                </p>
-                                <!-- Add to Cart Form using POST method -->
-                                <form action="/cart/add" method="POST" style="display: inline;">
-                                    <input type="hidden" name="productId" value="<%= product._id %>">
-                                    <button type="submit" class="cart-btn">
-                                        <i class="fas fa-shopping-cart"></i> Add to Cart
-                                    </button>
-                                </form>
+            <!-- Product List -->
+            <div class="row product-lists">
+                <% products.forEach(product => { %>
+                    <div class="col-lg-4 col-md-6 text-center <%= product.category.name.toLowerCase() %>">
+                        <div class="single-product-item">
+                            <div class="product-image">
+                                <a href="/product/<%= product._id %>">
+                                    <img src="<%= product.image %>" alt="<%= product.name %>">
+                                </a>
                             </div>
+                            <h3><%= product.name %></h3>
+                            <p class="product-price"><span>Full</span> $<%= product.price %></p>
+                            <button type="button" class="cart-btn add-to-cart" data-product-id="<%= product._id %>">
+                                <i class="fas fa-shopping-cart"></i> Add to cart
+                            </button>
                         </div>
-                    <% }); %>
-                </div>
+                    </div>
+                <% }); %>
             </div>
+            <!-- End Product List -->
 
         </div>
 
+        <!-- Pagination -->
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="pagination-wrap">
@@ -103,12 +99,60 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- end products -->
+        <!-- End Pagination -->
 
-    <!-- footer -->
-     <%- include('../partials/footer') %>
-     <!-- script -->
-<%- include('../partials/script') %>
+    </div>
+    <!-- End Products Section -->
+
+    <!-- Footer -->
+    <%- include('../partials/footer') %>
+
+    <!-- Script -->
+    <%- include('../partials/script') %>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Handle Add to Cart Button Click
+            $('.add-to-cart').on('click', function () {
+                const productId = $(this).data('product-id');
+    
+                $.ajax({
+                    url: '/cart/add', // Backend route to add to cart
+                    method: 'POST',
+                    data: { productId },
+                    success: function (response) {
+                        if (response.success) {
+                            // Show a success message in a notification area
+                            const notification = $('<div class="cart-notification">Item added to cart successfully!</div>');
+                            $('body').append(notification);
+                            notification.fadeOut(3000, function () {
+                                $(this).remove();
+                            });
+    
+                            // Update cart count in navbar
+                            $('#cart-item-count').text(response.cartItemCount);
+                        } else {
+                            // Show an error message in a notification area
+                            const notification = $('<div class="cart-notification error">' + response.message + '</div>');
+                            $('body').append(notification);
+                            notification.fadeOut(3000, function () {
+                                $(this).remove();
+                            });
+                        }
+                    },
+                    error: function () {
+                        // Show a generic error message in a notification area
+                        const notification = $('<div class="cart-notification error">Error adding product to cart. Please try again.</div>');
+                        $('body').append(notification);
+                        notification.fadeOut(3000, function () {
+                            $(this).remove();
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    
+
 </body>
 </html>

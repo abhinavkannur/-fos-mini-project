@@ -3,9 +3,9 @@ const express=require('express');
 const {  viewusers, renderadminlogin, adminlogin, adminlogout, renderadmindash, blockuser, unblockuser } = require('../controllers/admincontroller');
 const {  renderaddproductform, addproduct, viewmenu, updatemenu, renderupdatemenu, deletemenuitem } = require('../controllers/addproduct');
 const { rendercategories, createcategory, deletecategory } = require('../controllers/category');
-const {addToCart}=require('../controllers/cartcontroller')
 const router=express.Router();
 const upload=require('../utils/multer-cloudinary');
+// const { addcart } = require('../controllers/cart');
 
 //multer setup
 
@@ -43,6 +43,7 @@ router.get('/admindash',renderadmindash)
 router.post('/users/blockuser/:id',blockuser);
 router.post('/users/unblockuser/:id',unblockuser)
 
- 
+
+
 
 module.exports=router;

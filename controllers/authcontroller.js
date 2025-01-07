@@ -318,7 +318,7 @@ const forgotpassword=async(req,res)=>{
         try{
           const token=req.cookies.token;//extract token from cookies
           if(!token){
-            return res.status(400).send('unauthorized user:user not loogged in');
+            return res.redirect('/login')
 
           }
 

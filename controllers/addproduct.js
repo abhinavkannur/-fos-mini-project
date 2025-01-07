@@ -34,6 +34,8 @@ const addproduct=async (req,res)=>{
     res.status(500).send('server error');
   }
 }
+
+
 const getproduct=async (req,res)=>{
   try{
     const page=parseInt(req.query.page)||1//current page

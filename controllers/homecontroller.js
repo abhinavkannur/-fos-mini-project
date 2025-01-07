@@ -14,7 +14,7 @@ const rendercontact=(req,res)=>{
   res.render('users/contact')
 }
 const rendermenu=(req,res)=>{
-  res.render('users/shop');
+  res.render('users/shop1');
 }
 const rendercart=(req,res)=>{
   res.render('users/cart');
