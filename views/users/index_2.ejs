@@ -4,6 +4,7 @@
 	 <link rel="stylesheet" href="/css/cart.css">
 	<%- include('../partials/header') %>
 <body>
+	
 
 	
 	<!--PreLoader-->
@@ -17,68 +18,28 @@
 		<!-- navbar -->
 	<%- include('../partials/navbar') %>
 	
+	<%- include('../partials/msg') %>
+<!-- Homepage Slider -->
+<div class="homepage-slider">
+  <% sliders.forEach(slider => { %>
+    <div class="single-homepage-slider" style="background-image: url('<%= slider.images[0].imageUrl %>');">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 col-lg-7 offset-lg-1">
+            <div class="hero-text">
+              <div class="hero-text-tablecell">
+                <p class="subtitle"><%= slider.subtitle %></p>
+                <h1><%= slider.title %></h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% }) %>
+</div>
 
-	<!-- home page slider -->
-	<div class="homepage-slider">
-		<!-- single home slider -->
-		<div class="single-homepage-slider homepage-bg-1">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12 col-lg-7 offset-lg-1 offset-xl-0">
-						<div class="hero-text">
-							<div class="hero-text-tablecell">
-								<p class="subtitle">Fresh & Spicy</p>
-								<h1>An Unforgettable Taste Experience</h1>
-								<div class="hero-btns">
-									<a href="/menu" class="boxed-btn">Order Now</a>
-									<a href="/contact" class="bordered-btn">Contact Us</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- single home slider -->
-		<div class="single-homepage-slider homepage-bg-2">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-10 offset-lg-1 text-center">
-						<div class="hero-text">
-							<div class="hero-text-tablecell">
-								<p class="subtitle">Fresh Everyday</p>
-								<h1>Swipe to Savor</h1>
-								<div class="hero-btns">
-									<a href="/menu" class="boxed-btn">Order Now</a>
-									<a href="/contact" class="bordered-btn">Contact Us</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- single home slider -->
-		<div class="single-homepage-slider homepage-bg-3">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-10 offset-lg-1 text-right">
-						<div class="hero-text">
-							<div class="hero-text-tablecell">
-								<p class="subtitle"> Inspired by the latest food fads.</p>
-								<h1>Taste the Trend</h1>
-								<div class="hero-btns">
-									<a href="/menu" class="boxed-btn">Order Now</a>
-									<a href="/contact" class="bordered-btn">Contact Us</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end home page slider -->
+
 
 	<!-- features list section -->
 	<div class="list-section pt-80 pb-80">
@@ -123,53 +84,7 @@
 		</div>
 	</div>
 	<!-- end features list section -->
-
-	<!-- product section -->
-	<div class="product-section mt-150 mb-150">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-8 offset-lg-2 text-center">
-					<div class="section-title">	
-						<h3><span class="orange-text">Our</span> Menu</h3>
-						<p>"Order Now" – Craving something special? Let us deliver!</p>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-lg-4 col-md-6 text-center">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a href="single-product.html"><img src="/img/products/product-img-1.jpg" alt=""></a>
-						</div>
-						<h3>Strawberry</h3>
-						<p class="product-price"><span>Per Kg</span> 85$ </p>
-						<a href="/cart" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6 text-center">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a href="/singleproduct"><img src="/img/products/product-img-2.jpg" alt=""></a>
-						</div>
-						<h3>Berry</h3>
-						<p class="product-price"><span>Per Kg</span> 70$ </p>
-						<a href="/cart" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6 offset-md-3 offset-lg-0 text-center">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a href="/singleproduct"><img src="/img/products/product-img-3.jpg" alt=""></a>
-						</div>
-						<h3>Lemon</h3>
-						<p class="product-price"><span>Per Kg</span> 35$ </p>
-						<a href="/cart" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+<!--  -->
 	
 	
 	<!-- advertisement section -->
@@ -210,6 +125,7 @@
 
 	<!-- script -->
 	<%- include('../partials/script') %>
+
 
 </body>
 </html>

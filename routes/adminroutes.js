@@ -1,10 +1,12 @@
 const express=require('express');
 
-const {  viewusers, renderadminlogin, adminlogin, adminlogout, renderadmindash, blockuser, unblockuser } = require('../controllers/admincontroller');
+const {  viewusers, renderadminlogin, adminlogin, adminlogout,  blockuser, unblockuser } = require('../controllers/admincontroller');
 const {  renderaddproductform, addproduct, viewmenu, updatemenu, renderupdatemenu, deletemenuitem } = require('../controllers/addproduct');
 const { rendercategories, createcategory, deletecategory } = require('../controllers/category');
 const router=express.Router();
 const upload=require('../utils/multer-cloudinary');
+const { renderslider, addslider, rendermanageslider, updateslider} = require('../controllers/bannercontrol');
+const { render } = require('ejs');
 // const { addcart } = require('../controllers/cart');
 
 //multer setup
@@ -36,7 +38,7 @@ router.post('/categories/:id',deletecategory);
 //logout
 router.get('/adminlogout',adminlogout)
 
-router.get('/admindash',renderadmindash)
+// router.get('/admindash',renderadmindash)
 
 //block and unblock user
 
@@ -44,6 +46,11 @@ router.post('/users/blockuser/:id',blockuser);
 router.post('/users/unblockuser/:id',unblockuser)
 
 
+//banner
+router.get('/banners',renderslider)
+router.post('/addslider',upload.single('image'),addslider);
+router.get('/slidermanagement',rendermanageslider)
 
+router.post('/update-slider',updateslider)
 
 module.exports=router;

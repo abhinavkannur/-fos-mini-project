@@ -2,11 +2,12 @@ const jwt = require('jsonwebtoken');
 const Cart = require('../models/cartmodel');
 const Product = require('../models/product');
 
+
 const addcart = async (req, res) => {
     // Retrieve the token from cookies
     const token = req.cookies.token;
     if (!token) {
-        return res.redirect('/login')
+        return res.render('users/loginpage',{success:null,error:'plz login first'})
     }
 
     try {
@@ -26,7 +27,7 @@ const addcart = async (req, res) => {
         // Check if the product exists
         const product = await Product.findById(productId);
         if (!product) {
-            return res.status(404).json({ message: 'Product not found.' });
+            return res.render('users/shop',{ success:null,error: 'Product not found.' });
         }
 
         // Check if the product is already in the cart
@@ -41,14 +42,14 @@ const addcart = async (req, res) => {
         await cart.save(); // Save the cart
 
         // Redirect to the cart page or return a success message
-        return res.redirect('/menu');
+        return res.render('users/shop1',{success:null,error:null});
     } catch (err) {
         // Handle JWT-specific errors
         if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
-            return res.redirect('/login')
+            return res.render('users/loginpage',{success:null,error:"token expired"});
         }
         // Handle server errors
-        return res.status(500).json({ message: 'Server error.', error: err.message });
+        return res.render('users/shop',{success:null,error:'error in item add to cart'});
     }
 };
   

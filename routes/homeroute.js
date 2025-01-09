@@ -1,8 +1,8 @@
 const express=require('express')
 const router=express.Router();
 
-const {renderhomepage, renderabout, rendercontact,rendercart,rendercheckout,rendersingleproduct,render404, }=require('../controllers/homecontroller');
-const {renderloginpage, signup, verifyotp, login,renderforgotpassword, forgotpassword, forgotpasswordotp, resetpassword, renderuserdashbord, renderuserprofile, updateprofile, logout}=require('../controllers/authcontroller');
+const { renderabout, rendercontact,rendercart,rendercheckout,rendersingleproduct,render404, }=require('../controllers/homecontroller');
+const {renderloginpage, signup, verifyotp, login,renderforgotpassword, forgotpassword, forgotpasswordotp, resetpassword, renderuserdashbord, renderuserprofile, updateprofile, logout, renderhomepage}=require('../controllers/authcontroller');
 const { getproduct } = require('../controllers/addproduct');
 const cartController=require('../controllers/cartcontrol');
 
@@ -23,7 +23,7 @@ router.post('/forgotpassword',forgotpassword);
 router.post('/forgotpassword-otp',forgotpasswordotp);
 router.post('/resetpassword',resetpassword)
 router.get('/user-dashbord',renderuserdashbord);
-router.get('/profile',renderuserprofile)
+router.get('/profile',renderuserprofile)                                                                                                                                                                                                                                                                                                                                                                                                                       
 router.post('/update-profile',updateprofile)
 router.post('/logout',logout)
 

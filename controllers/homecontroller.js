@@ -2,10 +2,12 @@
 // const { use } = require('../routes/homeroute')
 
 
-const renderhomepage=(req,res)=>
-{
-  res.render('users/index_2')
-}
+
+
+
+
+
+
 
 const renderabout=(req,res)=>{
   res.render('users/about')
@@ -31,4 +33,4 @@ const render404=(req,res)=>{
 
 
 
-module.exports={renderhomepage,renderabout,rendercontact,rendermenu,rendercart,rendercheckout,rendersingleproduct,render404};
+module.exports={renderabout,rendercontact,rendermenu,rendercart,rendercheckout,rendersingleproduct,render404};

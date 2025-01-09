@@ -5,8 +5,9 @@ const jwt=require('jsonwebtoken');
 const cookieparser=require('cookie-parser');
 const nodemailer=require('nodemailer');
 const crypto=require('crypto');
-const { error } = require('console');
-const { now } = require('mongoose');
+const Slider=require('../models/bannermodel')
+
+const Banner=require('../models/bannermodel')
 
 // nodemailer setup
 const transporter=nodemailer.createTransport({
@@ -17,10 +18,24 @@ const transporter=nodemailer.createTransport({
   }
 });
 
+const renderhomepage = async (req, res) => {
+  try {
+    // Fetch the slider data from the database
+    const sliders = await Banner.find();
+
+    // Render the page and pass the sliders
+    res.render('users/index_2', { sliders, success: null, error: null });
+  } catch (error) {
+    console.error('Error fetching sliders:', error);
+
+    // Render the page with an error message if fetching sliders fails
+    res.render('users/index_2', { sliders: [], success: null, error: 'Failed to load sliders' });
+  }
+};
 // render signnup login page
 
 const renderloginpage=(req,res)=>{
-  res.render('users/loginpage');
+  res.render('users/loginpage',{success:null,error:null});
 }
 
 // signup
@@ -32,7 +47,7 @@ const signup=async(req,res)=>{
 
   const existinguser=await User.findOne({email});
   if(existinguser){
-   return res.render('users/loginpage',{message:'user alredy exits'});
+   return res.render('users/loginpage',{success:'user already exits',error:null});
   }
 
   //hashpassword and create new user
@@ -78,7 +93,7 @@ const signup=async(req,res)=>{
       const fullotp=otp.join('')
       if (!userId || !fullotp) {
         console.log('User ID or OTP missing');
-        return res.render('users/otp', { userId, message: 'User ID or OTP missing' });
+        return res.render('users/otp', { userId, success: 'User ID or OTP missing',error:null });
       }
   
     //find user in the db
@@ -86,21 +101,21 @@ const signup=async(req,res)=>{
     const user=await User.findById(userId);
     if(!user){
       console.log('user not found')
-      return res.render('users/otp',{userId,message:'user not found'});
+      return res.render('users/otp',{userId,success:'user not found',error:null});
      }
 
     //check if the otp has expired
 
       if(Date.now()>user.otpExpiry){
         console.log('otp expired')
-        return res.render('users/otp',{userId,message:'otp expired'});
+        return res.render('users/otp',{userId,success:null,error:'otp expired'});
         }
 
       //validate the otp
 
     if(user.otp!==fullotp){
       console.log('incorrect otp')
-      return res.render('users/otp',{userId,message:'invalid otp'});
+      return res.render('users/otp',{userId,success:null,error:'invalid otp'});
       
     }
     //make the user verified
@@ -135,23 +150,28 @@ const login=async(req,res)=>{
     }
 
     if(!user||!user.isVerified){
-      return res.render('users/loginpage',{message:'please verify your acc first'})
+      return res.render('users/loginpage',{success:null,error:'please verify your acc first'})
     }
 
     const ismatch=await bcrypt.compare(password,user.password);
     if(!ismatch){
-      return res.render('users/loginpage',{message:'invalid credentials'});
+      return res.render('users/loginpage',{success:null,error:'invalid credentials'});
        }
+       let sliders = [];
+   
+      sliders = await Slider.find(); 
 
     const token=jwt.sign({userId:user._id},process.env.JWT_SECRET,{expiresIn:'1h'})
   res.cookie('token',token,{httponly:true})
   console.log('login sucessfull');
-  return res.redirect('/');
+  return res.render('users/index_2',{success:`welcome ${user.fullName}`,error:null,sliders});
   }catch(error){
     console.log(error);
-    res.status(500).message('invalid credilince')
+    res.render('users/loginpage',{success:null,error:"invalid credilince"})
   }
 }
+
+
 
 // forgotpassword
 const renderforgotpassword=(req,res)=>{
@@ -377,4 +397,4 @@ const forgotpassword=async(req,res)=>{
 
 
 
-module.exports={forgotpassword,signup,verifyotp,login,renderloginpage,renderforgotpassword,forgotpasswordotp,resetpassword,renderuserdashbord,renderuserprofile,updateprofile,logout}
+module.exports={renderhomepage,forgotpassword,signup,verifyotp,login,renderloginpage,renderforgotpassword,forgotpasswordotp,resetpassword,renderuserdashbord,renderuserprofile,updateprofile,logout}
