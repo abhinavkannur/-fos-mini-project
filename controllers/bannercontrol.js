@@ -3,7 +3,7 @@ const Banner=require('../models/bannermodel');
 cloudinary=require('../utils/cloudinary')
 
 const { parse } = require('dotenv');
-const Slider = require('../models/bannermodel');
+
 
 //render the slidebarform
 
@@ -64,5 +64,19 @@ const updateslider = async (req, res) => {
   }
 };
 
-module.exports={renderslider,addslider,rendermanageslider,updateslider};
+//delete slider
+const deleteslider=async(req,res)=>{
+  try{
+    const {id}=req.params;
+
+    await Banner.findOneAndDelete(id);
+    console.log('slider deleted');
+    res.redirect('/banners');
+  }catch(error){
+    console.log(error);
+    res.status(404).send('internal server error');
+  }
+}
+
+module.exports={renderslider,addslider,rendermanageslider,updateslider,deleteslider};
 

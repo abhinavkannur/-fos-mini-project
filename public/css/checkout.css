@@ -1,0 +1,148 @@
+/* General Body Styling */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* Breadcrumb Section */
+.breadcrumb-bg {
+  background: linear-gradient(to right, #007bff, #00c6ff);
+  color: #fff;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.breadcrumb-text h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Checkout Section */
+.checkout-section {
+  padding: 60px 0;
+  background-color: #ffffff;
+}
+
+.checkout-form {
+  padding: 20px 30px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-form h4 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #007bff;
+}
+
+.checkout-form .form-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.checkout-form .form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: 0.3s ease-in-out;
+}
+
+.checkout-form .form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Dropdown Fix */
+.checkout-form select.form-control {
+  appearance: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%23333' d='M5.5 7.5l4.5 4.5 4.5-4.5H5.5z'/%3E%3C/svg%3E") no-repeat right 10px center;
+  background-size: 12px;
+  padding-right: 35px;
+  cursor: pointer;
+}
+
+/* Button Styling */
+.boxed-btn {
+  display: inline-block;
+  padding: 12px 30px;
+  background-color: #007bff;
+  color: white;
+  text-transform: uppercase;
+  text-align: center;
+  border-radius: 5px;
+  transition: background 0.3s;
+  font-weight: bold;
+  border: none;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.boxed-btn:hover {
+  background-color: #0056b3;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+/* Order Summary Styling */
+.order-summary {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-summary h4 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #007bff;
+}
+
+.order-summary ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.order-summary ul li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.order-summary ul li span {
+  font-weight: bold;
+}
+
+.order-summary h5 {
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  text-align: right;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .checkout-section {
+    padding: 30px 10px;
+  }
+
+  .checkout-form,
+  .order-summary {
+    margin-bottom: 20px;
+  }
+
+  .breadcrumb-text h1 {
+    font-size: 28px;
+  }
+}

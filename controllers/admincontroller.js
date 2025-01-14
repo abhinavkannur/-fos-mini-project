@@ -83,4 +83,4 @@ const unblockuser=async(req,res)=>{
 }
 
 
-module.exports={viewusers,renderadminlogin,adminlogin,adminlogout,blockuser,unblockuser,};
+module.exports={viewusers,renderadminlogin,adminlogin,adminlogout,blockuser,unblockuser};

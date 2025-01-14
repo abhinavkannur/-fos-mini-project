@@ -21,9 +21,9 @@ const rendermenu=(req,res)=>{
 const rendercart=(req,res)=>{
   res.render('users/cart');
 }
-const rendercheckout=(req,res)=>{
-  res.render('users/checkout');
-}
+// const rendercheckout=(req,res)=>{
+//   res.render('users/checkout');
+// }
 const rendersingleproduct=(req,res)=>{
   res.render('users/single-product');
 }
@@ -33,4 +33,4 @@ const render404=(req,res)=>{
 
 
 
-module.exports={renderabout,rendercontact,rendermenu,rendercart,rendercheckout,rendersingleproduct,render404};
+module.exports={renderabout,rendercontact,rendermenu,rendercart,rendersingleproduct,render404};
