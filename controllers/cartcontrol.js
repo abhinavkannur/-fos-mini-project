@@ -159,6 +159,6 @@ try{
 }
 
 
-
+ 
 
 module.exports={addcart,rendercart,increaseitem,decreaseitem}

@@ -59,20 +59,18 @@ const applycoupencode = async (req, res) => {
       return res.status(400).json({ message: 'Coupon usage limit reached.' });
     }
 
-    // Convert totalAmount to a number
+    // Calculate the discount
     const totalAmountNumber = parseFloat(totalAmount);
-    if (isNaN(totalAmountNumber)) {
-      return res.status(400).json({ message: 'Invalid total amount.' });
-    }
-
-    // Calculate the discount and the new total
     const discountAmount = (totalAmountNumber * coupon.discount) / 100;
     const newTotal = totalAmountNumber - discountAmount;
 
-    // Redirect to the checkout page with the discounted total
-    res.redirect(`/checkout?newTotal=${newTotal.toFixed(2)}`);
+    // Respond with the new total and discount details
+    return res.status(200).json({ 
+      newTotal: newTotal.toFixed(2), 
+      discountAmount: discountAmount.toFixed(2),
+      message: 'Coupon applied successfully!'
+    });
   } catch (error) {
-    // Log the error and respond with a generic error message
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
   }

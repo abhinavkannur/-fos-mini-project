@@ -75,7 +75,7 @@
                 </tr>
                 <tr>
                   <td colspan="3">
-                    <form id="couponForm" action="/apply-coupon" method="POST">
+                    <form id="couponForm">
                       <div class="form-group">
                         <label for="couponCode">Coupon Code</label>
                         <input 
@@ -85,12 +85,12 @@
                           class="form-control" 
                           placeholder="Enter coupon code" 
                           required>
-                        <button type="submit" class="boxed-btn mt-2">Apply</button>
+                        <button type="button" id="applyCouponButton" class="boxed-btn mt-2">Apply</button>
                       </div>
                     </form>
+                    <p id="couponMessage" style="color: red;"></p>
                   </td>
                 </tr>
-                
                 <tr>
                   <th colspan="2">Total</th>
                   <th id="totalAmount">$<%= totalAmount.toFixed(2) %></th>
@@ -104,47 +104,9 @@
   </div>
   <!-- end checkout section -->
 
+  <!-- Include External JS -->
+  <script src="/js/checkout.js"></script>
   <%- include('../partials/footer') %>
   <%- include('../partials/script') %>
-
-  <!-- <script>
-    document.getElementById('couponForm').addEventListener('submit', async function(e) {
-      e.preventDefault(); // Prevent the form from reloading the page
-      
-      const couponCode = document.getElementById('couponCode').value;
-      const subtotal = parseFloat(document.getElementById('subtotalAmount').textContent.replace('$', '').trim()); // Get subtotal amount
-      
-      try {
-        const response = await fetch('/apply-coupon', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            couponCode: couponCode,
-            totalAmount: subtotal, // Send the subtotal amount
-          }),
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          // Update the total amount on the page with the discounted total
-          document.getElementById('totalAmount').textContent = `$${data.newTotal}`;
-
-          // Disable the coupon form to prevent multiple submissions
-          document.getElementById('couponCode').disabled = true;
-          document.querySelector('button[type="submit"]').disabled = true;
-
-          alert(data.message); // Show a success message
-        } else {
-          alert(data.message); // Show error message
-        }
-      } catch (error) {
-        alert('An error occurred while applying the coupon.');
-      }
-    });
-  </script> -->
-
 </body>
 </html>
