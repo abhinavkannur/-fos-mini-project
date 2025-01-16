@@ -5,6 +5,7 @@ const { renderabout, rendercontact,rendercart,rendersingleproduct,render404, }=r
 const {renderloginpage, signup, verifyotp, login,renderforgotpassword, forgotpassword, forgotpasswordotp, resetpassword, renderuserdashbord, renderuserprofile, updateprofile, logout, renderhomepage}=require('../controllers/authcontroller');
 const { getproduct } = require('../controllers/addproduct');
 const cartController=require('../controllers/cartcontrol');
+const { renderCheckout } = require('../controllers/checkoutcontroller');
 // const { renderCheckout } = require('../controllers/checkoutcontroller');
 
 router.get('/',renderhomepage);
@@ -12,7 +13,7 @@ router.get('/about',renderabout);
 router.get('/contact',rendercontact);
 router.get('/menu',getproduct);
 router.get('/cart',rendercart);
-// router.get('/checkout',renderCheckout);
+router.get('/checkout',renderCheckout);
 router.get('/singleproduct',rendersingleproduct);
 router.get('/404',render404);
 router.get('/login',renderloginpage)

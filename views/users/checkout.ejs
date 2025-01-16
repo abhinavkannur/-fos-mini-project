@@ -10,20 +10,12 @@
 
   <!-- breadcrumb-section -->
   <div class="breadcrumb-section breadcrumb-bg">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 offset-lg-2 text-center">
-          <div class="breadcrumb-text">
-            <h1>Checkout</h1>
-          </div>
-        </div>
-      </div>
-    </div>
+    <h1>Checkout</h1>
   </div>
   <!-- end breadcrumb section -->
 
   <!-- checkout section -->
-  <div class="checkout-section mt-150 mb-150">
+  <div class="checkout-section">
     <div class="container">
       <div class="row">
         <!-- Billing Details -->
@@ -44,11 +36,12 @@
             </div>
             <div class="form-group">
               <label for="paymentMethod">Payment Method</label>
-              <select name="paymentMethod" id="paymentMethod" class="form-control" required>
-                <option value="COD">Cash on Delivery</option>
-                <option value="Credit Card">Strip</option>
-                <!-- <option value="PayPal">PayPal</option> -->
-              </select>
+              <div class="custom-select-wrapper">
+                <select name="paymentMethod" id="paymentMethod" class="form-control custom-select" required>
+                  <option value="COD">Cash on Delivery</option>
+                  <option value="Credit Card">Stripe</option>
+                </select>
+              </div>
             </div>
             <button type="submit" class="boxed-btn">Place Order</button>
           </form>
@@ -77,8 +70,30 @@
               </tbody>
               <tfoot>
                 <tr>
+                  <th colspan="2">Subtotal</th>
+                  <th id="subtotalAmount">$<%= totalAmount.toFixed(2) %></th>
+                </tr>
+                <tr>
+                  <td colspan="3">
+                    <form id="couponForm" action="/apply-coupon" method="POST">
+                      <div class="form-group">
+                        <label for="couponCode">Coupon Code</label>
+                        <input 
+                          type="text" 
+                          name="couponCode" 
+                          id="couponCode" 
+                          class="form-control" 
+                          placeholder="Enter coupon code" 
+                          required>
+                        <button type="submit" class="boxed-btn mt-2">Apply</button>
+                      </div>
+                    </form>
+                  </td>
+                </tr>
+                
+                <tr>
                   <th colspan="2">Total</th>
-                  <th>$<%= totalAmount.toFixed(2) %></th>
+                  <th id="totalAmount">$<%= totalAmount.toFixed(2) %></th>
                 </tr>
               </tfoot>
             </table>
@@ -91,5 +106,45 @@
 
   <%- include('../partials/footer') %>
   <%- include('../partials/script') %>
+
+  <!-- <script>
+    document.getElementById('couponForm').addEventListener('submit', async function(e) {
+      e.preventDefault(); // Prevent the form from reloading the page
+      
+      const couponCode = document.getElementById('couponCode').value;
+      const subtotal = parseFloat(document.getElementById('subtotalAmount').textContent.replace('$', '').trim()); // Get subtotal amount
+      
+      try {
+        const response = await fetch('/apply-coupon', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            couponCode: couponCode,
+            totalAmount: subtotal, // Send the subtotal amount
+          }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Update the total amount on the page with the discounted total
+          document.getElementById('totalAmount').textContent = `$${data.newTotal}`;
+
+          // Disable the coupon form to prevent multiple submissions
+          document.getElementById('couponCode').disabled = true;
+          document.querySelector('button[type="submit"]').disabled = true;
+
+          alert(data.message); // Show a success message
+        } else {
+          alert(data.message); // Show error message
+        }
+      } catch (error) {
+        alert('An error occurred while applying the coupon.');
+      }
+    });
+  </script> -->
+
 </body>
 </html>

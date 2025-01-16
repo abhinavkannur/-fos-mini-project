@@ -1,3 +1,30 @@
+/* General Styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f6f9;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1, h4 {
+  margin: 0;
+}
+
+/* Breadcrumb Section */
+.breadcrumb-section {
+  background: linear-gradient(90deg, #fc8019 0%, #ffa726 50%, #fc8019 100%);
+  color: white;
+  text-align: center;
+  padding: 50px 0;
+}
+
+.breadcrumb-section h1 {
+  font-size: 2.8em;
+  font-weight: 700;
+}
+
 /* Cart Table */
 .cart-table {
   width: 100%;
@@ -99,20 +126,22 @@
   display: flex;
   gap: 15px;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .boxed-btn,
 .checkout-btn {
   display: inline-block;
-  padding: 14px 30px; /* Consistent padding */
-  font-size: 16px; /* Consistent font size */
+  padding: 14px 30px;
+  font-size: 16px;
   font-weight: bold;
   text-transform: uppercase;
   color: white;
   text-decoration: none;
-  border-radius: 50px;
+  border-radius: 50px; /* Ensured same border-radius for both buttons */
   text-align: center;
-  min-width: 200px; /* Set a minimum width to ensure equal size */
+  min-width: 200px;
+  max-width: 200px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
@@ -140,21 +169,21 @@
 .cart-summary {
   margin-top: 20px;
   text-align: center;
-  font-size: 24px; /* Larger font for emphasis */
+  font-size: 24px;
   font-weight: bold;
-  color: #222; /* Slightly darker color for better contrast */
+  color: #222;
   text-transform: uppercase;
   padding: 10px 0;
-  background-color: #f8f9fa; /* Light background to highlight */
+  background-color: #f8f9fa;
   border-radius: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .cart-summary span#totalAmount {
-  color: #28a745; /* Green color for the total price */
-  font-size: 28px; /* Slightly larger font for the total price */
+  color: #28a745;
+  font-size: 28px;
   font-weight: bold;
-  text-decoration: underline; /* Adds emphasis */
+  text-decoration: underline;
 }
 
 /* Breadcrumb Section */
@@ -174,7 +203,7 @@
   color: #555;
 }
 
-/* Responsiveness */
+/* Responsive Design */
 @media (max-width: 768px) {
   .cart-table th,
   .cart-table td {
@@ -194,14 +223,16 @@
 
   .cart-buttons {
     flex-direction: column;
-    gap: 10px; /* Reduce gap for smaller screens */
+    gap: 10px;
+    align-items: center;
   }
 
   .boxed-btn,
   .checkout-btn {
     padding: 12px 25px;
     font-size: 14px;
-    min-width: auto; /* Remove fixed width for smaller screens */
+    min-width: auto;
+    width: 100%;
   }
 
   .cart-summary {
@@ -211,5 +242,33 @@
 
   .cart-summary span#totalAmount {
     font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .breadcrumb-section {
+    padding: 20px 0;
+  }
+
+  .breadcrumb-section h1 {
+    font-size: 2em;
+  }
+
+  .checkout-section {
+    padding: 20px 15px;
+  }
+
+  .checkout-form, .order-summary {
+    padding: 15px;
+  }
+
+  .checkout-form h4, .order-summary h4 {
+    font-size: 1.6em;
+  }
+
+  .boxed-btn {
+    padding: 10px 15px;
+    font-size: 0.8em;
+    border-radius: 50px; /* Ensured same border-radius for both buttons */
   }
 }
