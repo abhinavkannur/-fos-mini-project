@@ -36,8 +36,7 @@ const addcart = async (req, res) => {
             cartItem.quantity += 1; // Increment quantity if it exists
         } else {
             cart.items.push({ product: productId, quantity: 1 }); // Add new product to the cart
-        }
-
+        } 
         cart.updatedAt = new Date(); // Update the timestamp
         await cart.save(); // Save the cart
 
@@ -159,6 +158,52 @@ try{
 }
 
 
+const removeitem = async (req, res) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.redirect('/login');
+    }
+
+    try {
+        // Verify the token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decoded.userId;
+
+        // Get the productId from the request body
+        const { productId } = req.body;
+
+        // Find the user's cart
+        const cart = await Cart.findOne({ user: userId });
+
+        if (cart) {
+            // Find the item index
+            const itemIndex = cart.items.findIndex(item => item.product.equals(productId));
+            if (itemIndex > -1) {
+                // Remove the item from the cart
+                cart.items.splice(itemIndex, 1);
+                cart.updatedAt = new Date();
+
+                // Save the updated cart
+                await cart.save();
+
+                // Redirect or send success response
+                return res.redirect('/cart1');
+            } else {
+                // Product not found in cart
+                return res.status(404).send('Product not found in cart.');
+            }
+        } else {
+            // Cart not found
+            return res.status(404).send('Cart not found.');
+        }
+    } catch (err) {
+        console.error(err);
+        return res.status(500).send('Internal server error.');
+    }
+};
+
+
+
  
 
-module.exports={addcart,rendercart,increaseitem,decreaseitem}
+module.exports={addcart,rendercart,increaseitem,decreaseitem,removeitem}

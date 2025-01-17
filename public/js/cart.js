@@ -8,7 +8,7 @@ $(document).ready(function () {
     var decreaseBtn = $(this).siblings(".decrease-btn");
     var productRow = $(this).closest("tr");
     var totalAmountElem = $("#totalAmount");
-    var totalAmount = parseFloat(totalAmountElem.text().replace("$", ""));
+    var totalAmount = parseFloat(totalAmountElem.text().replace("₹", ""));
 
     // Disable buttons temporarily
     $(this).prop("disabled", true);
@@ -23,12 +23,12 @@ $(document).ready(function () {
         if (action === "increase") {
           currentQuantity += 1;
           totalAmount += parseFloat(
-            productRow.find(".product-price").text().replace("$", "")
+            productRow.find(".product-price").text().replace("₹", "")
           );
         } else if (action === "decrease") {
           currentQuantity -= 1;
           totalAmount -= parseFloat(
-            productRow.find(".product-price").text().replace("$", "")
+            productRow.find(".product-price").text().replace("₹", "")
           );
         }
 
@@ -44,14 +44,14 @@ $(document).ready(function () {
 
         // Update the total price for this item
         var price = parseFloat(
-          productRow.find(".product-price").text().replace("$", "")
+          productRow.find(".product-price").text().replace("₹", "")
         );
         productRow
           .find(".product-total")
-          .text("$" + (price * currentQuantity).toFixed(2));
+          .text("₹" + (price * currentQuantity).toFixed(2));
 
         // Update the total amount displayed
-        totalAmountElem.text("$" + totalAmount.toFixed(2));
+        totalAmountElem.text("₹" + totalAmount.toFixed(2));
 
         // Re-enable the buttons
         $(".quantity-btn").prop("disabled", false);

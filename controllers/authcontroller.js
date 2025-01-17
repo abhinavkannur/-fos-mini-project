@@ -327,6 +327,9 @@ const forgotpassword=async(req,res)=>{
             }
             res.render('users/userdashbord',{user});
           }catch(err){
+            if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
+              return res. redirect('/login')
+          }
             console.log(err);
             res.status(500).send('server error')
           }

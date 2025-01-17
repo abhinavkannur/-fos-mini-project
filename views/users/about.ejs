@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <!-- header and css -->
- <%- include('../partials/header') %>
+<%- include('../partials/header') %>
 <body>
 	
 	<!--PreLoader-->
@@ -11,9 +11,10 @@
         </div>
     </div>
     <!--PreLoader Ends-->
-	<!-- navbar -->
 
+	<!-- navbar -->
 	<%- include('../partials/navbar') %>
+
 	<!-- breadcrumb-section -->
 	<div class="breadcrumb-section breadcrumb-bg">
 		<div class="container">
@@ -44,7 +45,7 @@
 									</div>
 									<div class="content">
 										<h3>Home Delivery</h3>
-										<p> Place your order through our website or app in just a few clicks..</p>
+										<p> Place your order through our website or app in just a few clicks.</p>
 									</div>
 								</div>
 							</div>
@@ -66,7 +67,7 @@
 									</div>
 									<div class="content">
 										<h3>Custom Box</h3>
-										<p> Each dish is packed securely to maintain freshness and quality during.</p>
+										<p>Each dish is packed securely to maintain freshness and quality during delivery.</p>
 									</div>
 								</div>
 							</div>
@@ -77,7 +78,7 @@
 									</div>
 									<div class="content">
 										<h3>Quick Refund</h3>
-										<p>If you cancel your order before it is prepared, you will receive a full refund..</p>
+										<p>If you cancel your order before it is prepared, you will receive a full refund.</p>
 									</div>
 								</div>
 							</div>
@@ -92,22 +93,28 @@
 	<!-- shop banner -->
 	<section class="shop-banner">
     	<div class="container">
-        	<h3>December is on! <br> with big <span class="orange-text">Discount...</span></h3>
+        	<h3 id="dynamic-month">December is on! <br> with big <span class="orange-text">Discount...</span></h3>
             <div class="sale-percent"><span>Sale! <br> Upto</span>50% <span>off</span></div>
             <a href="/menu" class="cart-btn btn-lg"> Order Now</a>
         </div>
     </section>
 	<!-- end shop banner -->
 
-	
-	</div>
-	<!-- end team section -->
-
-	<!-- end logo carousel -->
-
 	<!-- footer -->
-<%- include('../partials/footer') %>
-<!-- script -->
- <%- include('../partials/script') %>
+	<%- include('../partials/footer') %>
+
+	<!-- script -->
+	<%- include('../partials/script') %>
+
+	<script>
+		// Dynamically update the month in the banner
+		const monthNames = [
+			"January", "February", "March", "April", "May", 
+			"June", "July", "August", "September", "October", 
+			"November", "December"
+		];
+		const currentMonth = new Date().getMonth();
+		document.getElementById('dynamic-month').innerHTML = `${monthNames[currentMonth]} is on! <br> with big <span class="orange-text">Discount...</span>`;
+	</script>
 </body>
 </html>

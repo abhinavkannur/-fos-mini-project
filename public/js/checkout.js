@@ -1,6 +1,6 @@
 document.getElementById('applyCouponButton').addEventListener('click', async () => {
   const couponCode = document.getElementById('couponCode').value;
-  const totalAmount = parseFloat(document.getElementById('totalAmount').textContent.replace('$', ''));
+  const totalAmount = parseFloat(document.getElementById('totalAmount').textContent.replace('₹', ''));
 
   if (!couponCode) {
     document.getElementById('couponMessage').textContent = 'Please enter a coupon code.';
@@ -18,7 +18,7 @@ document.getElementById('applyCouponButton').addEventListener('click', async () 
 
     if (response.ok) {
       // Update the total amount on the page
-      document.getElementById('totalAmount').textContent = `$${data.newTotal}`;
+      document.getElementById('totalAmount').textContent = `₹${data.newTotal}`;
       document.getElementById('couponMessage').textContent = data.message;
       document.getElementById('couponMessage').style.color = 'green';
 

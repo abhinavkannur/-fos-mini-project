@@ -1,9 +1,13 @@
+// require('dotenv').config();
 require('dotenv').config();
 const express=require('express')
 const path=require('path');
 const app=express();
 const bodyparser=require('body-parser');
 const cookieparser=require('cookie-parser');
+
+const stripe = require('stripe')(process.env.STRIPE_SECRETKEY); // Replace 'your-secret-key' with your actual Stripe secret key
+
 
 //import routes
 const homeroutes=require('./routes/homeroute');

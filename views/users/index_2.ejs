@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 	<!-- header and css -->
-	 <link rel="stylesheet" href="/css/cart.css">
+	<link rel="stylesheet" href="/css/cart.css">
 	<%- include('../partials/header') %>
 <body>
-	
-
 	
 	<!--PreLoader-->
     <div class="loader">
@@ -15,36 +13,34 @@
     </div>
     <!--PreLoader Ends-->
 
-		<!-- navbar -->
+	<!-- navbar -->
 	<%- include('../partials/navbar') %>
 	
 	<%- include('../partials/msg') %>
-<!-- Homepage Slider -->
-<div class="homepage-slider">
-  <% sliders.forEach(slider => { %>
-    <div class="single-homepage-slider" style="background-image: url('<%= slider.images[0].imageUrl %>');">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 col-lg-7 offset-lg-1">
-            <div class="hero-text">
-              <div class="hero-text-tablecell">
-                <p class="subtitle"><%= slider.subtitle %></p>
-                <h1><%= slider.title %></h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  <% }) %>
-</div>
 
-
+	<!-- Homepage Slider -->
+	<div class="homepage-slider">
+		<% sliders.forEach(slider => { %>
+			<div class="single-homepage-slider" style="background-image: url('<%= slider.images[0].imageUrl %>');">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12 col-lg-7 offset-lg-1">
+							<div class="hero-text">
+								<div class="hero-text-tablecell">
+									<p class="subtitle"><%= slider.subtitle %></p>
+									<h1><%= slider.title %></h1>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		<% }) %>
+	</div>
 
 	<!-- features list section -->
 	<div class="list-section pt-80 pb-80">
 		<div class="container">
-
 			<div class="row">
 				<div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
 					<div class="list-box d-flex align-items-center">
@@ -80,13 +76,10 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
 	</div>
 	<!-- end features list section -->
-<!--  -->
-	
-	
+
 	<!-- advertisement section -->
 	<div class="abt-section mb-150">
 		<div class="container">
@@ -112,20 +105,29 @@
 	
 	<!-- shop banner -->
 	<section class="shop-banner">
-    	<div class="container">
-        	<h3>December  is on! <br> with big <span class="orange-text">Discount...</span></h3>
-            <div class="sale-percent"><span><br> Upto</span>50% <span>off</span></div>
-            <a href="/menu" class="cart-btn btn-lg">Order Now</a>
-        </div>
-    </section>
+		<div class="container">
+			<h3 id="dynamic-month"> is on! <br> with big <span class="orange-text">Discount...</span></h3>
+			<div class="sale-percent"><span><br> Upto</span>50% <span>off</span></div>
+			<a href="/menu" class="cart-btn btn-lg">Order Now</a>
+		</div>
+	</section>
 	<!-- end shop banner -->
 
 	<!-- footer  -->
-<%- include('../partials/footer') %>
+	<%- include('../partials/footer') %>
 
 	<!-- script -->
 	<%- include('../partials/script') %>
 
-
+	<script>
+		// Dynamically update the month in the banner
+		const monthNames = [
+			"January", "February", "March", "April", "May", 
+			"June", "July", "August", "September", "October", 
+			"November", "December"
+		];
+		const currentMonth = new Date().getMonth();
+		document.getElementById('dynamic-month').innerHTML = `${monthNames[currentMonth]} is on! <br> with big <span class="orange-text">Discount...</span>`;
+	</script>
 </body>
 </html>
