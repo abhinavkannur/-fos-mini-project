@@ -1,7 +1,7 @@
 const Cart=require('../models/cartmodel');
 const jwt=require('jsonwebtoken');
 const Order=require('../models/order');
-
+const stripe=require('stripe');
 
 const renderCheckout=async(req,res)=>{
   const token=req.cookies.token;
@@ -26,7 +26,6 @@ const renderCheckout=async(req,res)=>{
     res.status(500).send('server error');
   }
 }
-
 
 const handllecheckout = async (req, res) => {
   const token = req.cookies.token;
@@ -81,6 +80,26 @@ const handllecheckout = async (req, res) => {
       }
     }
 
+    // Save the order to the database
+    const order = new Order({
+      user: userId,
+      items: cart.items.map((item) => ({
+        product: item.product._id,
+        quantity: item.quantity,
+        price: item.product.price,
+      })),
+      totalAmount,
+      discountAmount,
+      shippingAddress: `${address}, ${city}`,
+      paymentMethod,
+      status: paymentMethod === 'COD' ? 'Pending' : 'Awaiting Payment',
+    });
+    await order.save();
+
+    // Clear the cart
+    cart.items = [];
+    await cart.save();
+
     // Redirect based on payment method
     if (paymentMethod === 'COD') {
       return res.render('users/cashondelivery', { totalAmount, discountAmount });
@@ -94,8 +113,6 @@ const handllecheckout = async (req, res) => {
     return res.status(500).send('Server error');
   }
 };
-
-
 
 
 module.exports={renderCheckout,handllecheckout}

@@ -66,7 +66,7 @@ const rendercart = async (req, res) => {
 
         // Fetch the user's cart and populate the product details
         const cart = await Cart.findOne({ user: userId }).populate('items.product');
-
+  
         // Calculate the total amount
         let totalAmount = 0;
         let cartItems = [];
