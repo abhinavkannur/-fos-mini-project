@@ -18,6 +18,8 @@ const transporter=nodemailer.createTransport({
   }
 });
 
+
+//rnderhomepage
 const renderhomepage = async (req, res) => {
   try {
     // Fetch the slider data from the database
@@ -32,11 +34,16 @@ const renderhomepage = async (req, res) => {
     res.render('users/index_2', { sliders: [], success: null, error: 'Failed to load sliders' });
   }
 };
+
+
 // render signnup login page
 
 const renderloginpage=(req,res)=>{
   res.render('users/loginpage',{success:null,error:null});
 }
+
+
+
 
 // signup
 const signup=async(req,res)=>{
@@ -139,6 +146,8 @@ const signup=async(req,res)=>{
   }
 };
 
+
+
 //login
 const login=async(req,res)=>{
   try{
@@ -207,6 +216,8 @@ const forgotpassword=async(req,res)=>{
       res.status(400).send('error in otp generating')
       }
     }
+
+    
     //forgot otp
 
     const forgotpasswordotp=async(req,res)=>{

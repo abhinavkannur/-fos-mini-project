@@ -1,5 +1,25 @@
 const mongoose = require('mongoose');
 
+// Schema for individual order items
+const orderItemSchema = new mongoose.Schema({
+  product: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product',
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+    min: 1,
+    default: 1,
+  },
+  price: {
+    type: Number,
+    
+  },
+});
+
+// Main order schema
 const orderSchema = new mongoose.Schema(
   {
     user: {
@@ -7,69 +27,72 @@ const orderSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
-    items: [
-      {
-        product: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Product',
-          required: true,
-        },
-        quantity: {
-          type: Number,
-          required: true,
-        },
-        price: {
-          type: Number,
-          required: true,
-        },
-      },
-    ],
-    totalAmount: {
-      type: Number,
-      required: true,
-    },
-    discountAmount: {
-      type: Number,
-      default: 0,
-    },
     name: {
       type: String,
-      required: true,
-    },
-    phone: {
-      type: String,
-      required: true,
+      
+      trim: true,
     },
     address: {
       type: String,
       required: true,
+      trim: true,
     },
     city: {
       type: String,
       required: true,
+      trim: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+      trim: true,
+      match: [/^\d{10}$/, 'Phone number must be 10 digits'], // Example validation for phone numbers
     },
     paymentMethod: {
       type: String,
-      enum: ['COD', 'Credit Card', 'PayPal'], // Add additional methods if needed
+      enum: ['COD', 'Credit Card'],
       required: true,
+    },
+    totalAmount: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    discountAmount: {
+      type: Number,
+      default: 0,
+      min: 0,
     },
     status: {
       type: String,
-      enum: ['Pending', 'Awaiting Payment', 'Confirmed', 'Shipped', 'Delivered', 'Cancelled'],
+      enum: ['Pending', 'Completed', 'Cancelled', 'Awaiting Payment'],
       default: 'Pending',
     },
-    couponCode: {
+    items: [orderItemSchema],
+    paymentStatus: {
       type: String,
-    },
-    orderDate: {
-      type: Date,
-      default: Date.now,
+      enum: ['Paid', 'Unpaid'],
+      default: 'Unpaid',
     },
   },
-  {
-    timestamps: true, // Automatically manage createdAt and updatedAt
-  }
+  { timestamps: true } // Automatically adds createdAt and updatedAt fields
 );
 
+// Static method to validate order data before saving
+orderSchema.statics.validateOrder = function (orderData) {
+  if (!orderData.items || orderData.items.length === 0) {
+    throw new Error('Order must contain at least one item.');
+  }
+};
+
+// Middleware to validate order total before saving
+orderSchema.pre('save', function (next) {
+  if (this.totalAmount < this.discountAmount) {
+    return next(new Error('Discount amount cannot exceed total amount.'));
+  }
+  next();
+});
+
+// Create and export the model
 const Order = mongoose.model('Order', orderSchema);
 module.exports = Order;

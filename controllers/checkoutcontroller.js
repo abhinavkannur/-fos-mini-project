@@ -1,33 +1,36 @@
-const Cart=require('../models/cartmodel');
-const jwt=require('jsonwebtoken');
-const Order=require('../models/order');
-const stripe=require('stripe');
+const jwt = require('jsonwebtoken');
+const Order = require('../models/order');
+const Cart = require('../models/cartmodel');
+const User=require('../models/user');
+const Coupon=require('../models/coupnmodel');
 
-const renderCheckout=async(req,res)=>{
-  const token=req.cookies.token;
-  if(!token){
+const renderCheckout = async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) {
     return res.redirect('/login');
   }
-  try{
-    const decoded=jwt.verify(token,process.env.JWT_SECRET);
-    const userId=decoded.userId;
-    //fetch users cart product details
-    const cart =await Cart.findOne({user:userId}).populate('items.product');
-    if(!cart||cart.items.length==0){
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.userId;
+
+    // Fetch user's cart product details
+    const cart = await Cart.findOne({ user: userId }).populate('items.product');
+    if (!cart || cart.items.length == 0) {
       return res.redirect('/cart1');
     }
-    //calculate total amount
-    const totalAmount=cart.items.reduce((acc,item)=>acc + item.product.price * item.quantity, 0);
-  //render checkoutpage
 
-  res.render('users/checkout',{cart,totalAmount});
-  }catch(error){
-    console.error(error)
-    res.status(500).send('server error');
+    // Calculate total amount
+    const totalAmount = cart.items.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
+
+    // Render checkout page
+    res.render('users/checkout', { cart, totalAmount });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
   }
 }
 
-const handllecheckout = async (req, res) => {
+const checkoutController = async (req, res) => {
   const token = req.cookies.token;
   if (!token) {
     return res.redirect('/login');
@@ -37,82 +40,51 @@ const handllecheckout = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.userId;
 
+    // Fetch user's cart product details
     const cart = await Cart.findOne({ user: userId }).populate('items.product');
     if (!cart || cart.items.length === 0) {
-      return res.redirect('/cart');
+      return res.redirect('/cart1');
     }
 
-    const { name, address, city, paymentMethod, couponCode } = req.body;
-
-    // Validate required fields
-    if (!name || !address || !city || !paymentMethod) {
-      return res.status(400).send('All fields are required');
-    }
-
-    // Calculate the total amount
-    let totalAmount = cart.items.reduce(
-      (acc, item) => acc + item.product.price * item.quantity,
-      0
-    );
-
-    // Check if a coupon is applied
+    let totalAmount = cart.items.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
     let discountAmount = 0;
-    if (couponCode) {
-      const coupon = await Coupon.findOne({ code: couponCode });
-      if (!coupon) {
-        return res.status(400).send('Invalid coupon');
-      }
-      if (new Date(coupon.expireDate) < new Date()) {
-        return res.status(400).send('Coupon has expired');
-      }
-      if (coupon.usageLimit <= coupon.usedBy.length) {
-        return res.status(400).send('Coupon usage limit reached');
-      }
+    
 
-      // Calculate the discount
-      discountAmount = (totalAmount * coupon.discount) / 100;
-      totalAmount -= discountAmount;
-
-      // Mark the coupon as used by this user
-      if (!coupon.usedBy.includes(userId)) {
-        coupon.usedBy.push(userId);
-        await coupon.save();
-      }
-    }
-
-    // Save the order to the database
-    const order = new Order({
-      user: userId,
-      items: cart.items.map((item) => ({
-        product: item.product._id,
-        quantity: item.quantity,
-        price: item.product.price,
-      })),
-      totalAmount,
-      discountAmount,
-      shippingAddress: `${address}, ${city}`,
-      paymentMethod,
-      status: paymentMethod === 'COD' ? 'Pending' : 'Awaiting Payment',
-    });
-    await order.save();
-
-    // Clear the cart
-    cart.items = [];
-    await cart.save();
-
-    // Redirect based on payment method
+    // Check payment method and handle accordingly
+    const paymentMethod = req.body.paymentMethod;
     if (paymentMethod === 'COD') {
-      return res.render('users/cashondelivery', { totalAmount, discountAmount });
+      // Handle Cash on Delivery (COD) logic
+      const order = new Order({
+        user: userId,
+        name:req.body.name,
+        items: cart.items,
+        totalAmount: totalAmount - discountAmount, // Subtract any discounts
+        address: req.body.address,
+        city: req.body.city,
+        phone: req.body.phone,
+        paymentMethod: 'COD', // Cash on delivery
+        status: 'Pending', // Initial status
+      });
+      console.log(order.totalAmount)
+
+      // Save the order to the database
+      await order.save();
+
+      // Clear the user's cart
+      await cart.clearCart();
+
+      
+      return res.render('users/cod',{order}); 
     } else if (paymentMethod === 'Credit Card') {
-      return res.render('users/stripepayment', { totalAmount, discountAmount });
+      
+      return res.send('stripe-payment');
     } else {
-      return res.status(400).send('Invalid payment method');
+      return res.status(400).send('Invalid payment method.');
     }
   } catch (error) {
     console.error(error);
-    return res.status(500).send('Server error');
+    res.status(500).send('Server error');
   }
 };
 
-
-module.exports={renderCheckout,handllecheckout}
+module.exports = { renderCheckout, checkoutController };

@@ -14,6 +14,7 @@ const renderaddproductform=async(req,res)=>{
   }
 }
 
+
 const addproduct=async (req,res)=>{
   try{
     const {name,description,price,category}=req.body
