@@ -1,8 +1,13 @@
 const jwt = require('jsonwebtoken');
+// require('dotenv').config();
+
 const Order = require('../models/order');
 const Cart = require('../models/cartmodel');
-const User=require('../models/user');
-const Coupon=require('../models/coupnmodel');
+// const User=require('../models/user');
+// const Coupon=require('../models/coupnmodel');
+const stripe=require('stripe')(process.env.STRIPE_SECRETKEY)
+
+
 
 const renderCheckout = async (req, res) => {
   const token = req.cookies.token;
@@ -48,15 +53,15 @@ const checkoutController = async (req, res) => {
 
     let totalAmount = cart.items.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
     let discountAmount = 0;
-    
 
-    // Check payment method and handle accordingly
+
     const paymentMethod = req.body.paymentMethod;
+
     if (paymentMethod === 'COD') {
       // Handle Cash on Delivery (COD) logic
       const order = new Order({
         user: userId,
-        name:req.body.name,
+        name: req.body.name,
         items: cart.items,
         totalAmount: totalAmount - discountAmount, // Subtract any discounts
         address: req.body.address,
@@ -65,7 +70,6 @@ const checkoutController = async (req, res) => {
         paymentMethod: 'COD', // Cash on delivery
         status: 'Pending', // Initial status
       });
-      console.log(order.totalAmount)
 
       // Save the order to the database
       await order.save();
@@ -73,11 +77,29 @@ const checkoutController = async (req, res) => {
       // Clear the user's cart
       await cart.clearCart();
 
-      
-      return res.render('users/cod',{order}); 
+      return res.render('users/cod', { order });
     } else if (paymentMethod === 'Credit Card') {
-      
-      return res.send('stripe-payment');
+      // Create a Stripe Checkout session
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: cart.items.map(item => ({
+          price_data: {
+            currency: 'inr',
+            product_data: {
+              name: item.product.name,
+            },
+            unit_amount: item.product.price * 100,
+          },
+          quantity: item.quantity,
+        })),
+        mode: 'payment',
+        success_url: "http://localhost:4000/complete",
+        cancel_url: "http://localhost:4000/cancel",
+      });
+
+  // Redirect to the Stripe Checkout page
+  return res.redirect(303, session.url);
+     
     } else {
       return res.status(400).send('Invalid payment method.');
     }
@@ -85,6 +107,9 @@ const checkoutController = async (req, res) => {
     console.error(error);
     res.status(500).send('Server error');
   }
+  
 };
+    
+
 
 module.exports = { renderCheckout, checkoutController };

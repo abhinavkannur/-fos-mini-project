@@ -6,6 +6,7 @@ const {renderloginpage, signup, verifyotp, login,renderforgotpassword, forgotpas
 const { getproduct } = require('../controllers/addproduct');
 const cartController=require('../controllers/cartcontrol');
 const { renderCheckout, checkoutController } = require('../controllers/checkoutcontroller');
+const { paymentsucess, cancelpayment } = require('../controllers/payment');
 
 
 router.get('/',renderhomepage);
@@ -37,6 +38,9 @@ router.post('/cartremove',cartController.removeitem)
 
 router.get('/checkout',renderCheckout);
 router.post('/checkout',checkoutController)
+
+router.get('/complete',paymentsucess);
+router.get('/cancel',cancelpayment)
 
 
 module.exports=router;
