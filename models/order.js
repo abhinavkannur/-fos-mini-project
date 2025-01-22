@@ -15,7 +15,6 @@ const orderItemSchema = new mongoose.Schema({
   },
   price: {
     type: Number,
-    
   },
 });
 
@@ -29,7 +28,6 @@ const orderSchema = new mongoose.Schema(
     },
     name: {
       type: String,
-      
       trim: true,
     },
     address: {
@@ -46,7 +44,7 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      match: [/^\d{10}$/, 'Phone number must be 10 digits'], // Example validation for phone numbers
+      match: [/^\+?\d{10,15}$/, 'Phone number must be between 10 and 15 digits, with optional country code'], // Updated regex
     },
     paymentMethod: {
       type: String,
@@ -65,15 +63,15 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['Pending', 'Completed', 'Cancelled', 'Awaiting Payment'],
+      enum: ['Pending', 'Completed', 'Cancelled', 'Awaiting Payment', 'Paid'], // Added 'Paid'
       default: 'Pending',
     },
-    items: [orderItemSchema],
     paymentStatus: {
       type: String,
-      enum: ['Paid', 'Unpaid'],
+      enum: ['Paid', 'Unpaid'], // Tracks payment state
       default: 'Unpaid',
     },
+    items: [orderItemSchema],
   },
   { timestamps: true } // Automatically adds createdAt and updatedAt fields
 );

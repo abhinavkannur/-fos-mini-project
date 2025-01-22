@@ -93,10 +93,14 @@ const checkoutController = async (req, res) => {
           quantity: item.quantity,
         })),
         mode: 'payment',
-        success_url: "http://localhost:4000/complete",
+        success_url: "http://localhost:4000/complete?session_id={CHECKOUT_SESSION_ID}",
         cancel_url: "http://localhost:4000/cancel",
+        billing_address_collection: 'required', // Collect address details
+        phone_number_collection: {
+          enabled: true, // Collect phone number
+        },
       });
-
+      
   // Redirect to the Stripe Checkout page
   return res.redirect(303, session.url);
      
@@ -110,6 +114,5 @@ const checkoutController = async (req, res) => {
   
 };
     
-
 
 module.exports = { renderCheckout, checkoutController };
