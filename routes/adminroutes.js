@@ -7,6 +7,7 @@ const { renderaddproductform, addproduct, viewmenu, renderupdatemenu, updatemenu
 const { rendercategories, createcategory, deletecategory } = require('../controllers/category');
 const { renderslider, addslider, rendermanageslider, updateslider, deleteslider } = require('../controllers/bannercontrol');
 const { renderCoupon, createCoupon, applycoupencode } = require('../controllers/coupon');
+const { renderorder, renderAllOrders } = require('../controllers/ordercontroller');
 
 
 
@@ -41,7 +42,7 @@ router.post('/categories/:id',deletecategory);
 //logout
 router.get('/adminlogout',adminlogout)
 
-// router.get('/admindash',renderadmindash)
+// router.get('/admindash',re)
 
 //block and unblock user
 
@@ -62,4 +63,6 @@ router.get('/discounts',renderCoupon)
 router.post('/createcoupons',createCoupon)
 router.post('/apply-coupon',applycoupencode)
 
+
+router.get('/orders',renderAllOrders)
 module.exports=router;
