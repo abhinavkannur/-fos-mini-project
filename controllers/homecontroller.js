@@ -22,7 +22,7 @@ const renderabout=(req,res)=>{
 }
 
 const rendermenu=(req,res)=>{
-  res.render('users/shop1');
+  res.render('users/shop');
 }
 const rendercart=(req,res)=>{
   res.render('users/cart');

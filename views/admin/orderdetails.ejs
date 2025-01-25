@@ -2,18 +2,19 @@
 <html lang="en">
 <head>
   <%- include('../partials/adminpanelheader') %>
-  <link rel="stylesheet" href="/css/admiinorderdet.css">
+  <link rel="stylesheet" href="/css/admiinorderde.css">
   <link rel="stylesheet" href="/css/admindash.css">
 </head>
 <body>
   <div class="container mt-5">
     <%- include('../partials/adminnavbar') %>
     <h1 class="mb-4">All Orders</h1>
+
     <% if (orders.length > 0) { %>
       <% orders.forEach(order => { %>
-        <div class="order mt-4 p-3 border rounded">
-          <h2>Order Details</h2>
-          <p><strong>Order ID:</strong> <%= order._id %></p>
+        <div class="order mt-4 p-3 border rounded shadow-sm">
+          <h2 class="order-heading">Order Details</h2>
+          
           <p><strong>Customer Name:</strong> <%= order.name %></p>
           <p><strong>Email:</strong> <%= order.user.email %></p>
           <p><strong>Phone:</strong> <%= order.phone %></p>
@@ -59,22 +60,43 @@
                 </tr>
               <% } %>
             </tbody>
-            
           </table>
 
           <!-- Admin actions -->
-          <div class="mt-4">
-            <form action="/admin/orders/update/<%= order._id %>" method="POST" class="d-inline">
-              <select name="status" class="form-select d-inline w-auto me-2">
-                <option value="Pending" <%= order.status === 'Pending' ? 'selected' : '' %>>Pending</option>
-                <option value="Processing" <%= order.status === 'Processing' ? 'selected' : '' %>>Processing</option>
-                <option value="Shipped" <%= order.status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
-                <option value="Delivered" <%= order.status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+          <div class="mt-4 d-flex">
+            <form action="/update/<%= order._id %>" method="POST" class="d-inline">
+              <label for="status-<%= order._id %>" class="form-label">Order Status:</label>
+              <select
+                name="status"
+                id="status-<%= order._id %>"
+                class="form-select d-inline w-auto me-2"
+              >
+                <option value="Order Placed" <%= order.status === 'Order Placed' ? 'selected' : '' %>>
+                  Order Placed
+                </option>
+                <option value="Preparing" <%= order.status === 'Preparing' ? 'selected' : '' %>>
+                  Preparing
+                </option>
+                <option value="Ready for Pickup" <%= order.status === 'Ready for Pickup' ? 'selected' : '' %>>
+                  Ready for Pickup
+                </option>
+                <option value="Out for Delivery" <%= order.status === 'Out for Delivery' ? 'selected' : '' %>>
+                  Out for Delivery
+                </option>
+                <option value="Delivered" <%= order.status === 'Delivered' ? 'selected' : '' %>>
+                  Delivered
+                </option>
+                <option value="Cancelled" <%= order.status === 'Cancelled' ? 'selected' : '' %>>
+                  Cancelled
+                </option>
               </select>
-              <button type="submit" class="btn btn-primary">Update Status</button>
+              <button type="submit" class="btn btn-primary">
+                Update Status
+              </button>
             </form>
-            <form action="/admin/orders/delete/<%= order._id %>" method="POST" class="d-inline">
-              <button type="submit" class="btn btn-danger ms-2">Delete Order</button>
+            
+            <form action="/delete/<%= order._id %>" method="POST" class="d-inline ms-2">
+              <button type="submit" class="btn btn-danger">Delete Order</button>
             </form>
           </div>
         </div>
@@ -82,6 +104,16 @@
     <% } else { %>
       <p>No orders found.</p>
     <% } %>
+
+    <!-- Include Pagination -->
+    <%- include('../partials/pagination', { 
+      currentPage, 
+      totalPages, 
+      hasPreviousPage, 
+      hasNextPage, 
+      previousPage, 
+      nextPage 
+    }) %>
   </div>
 </body>
 </html>

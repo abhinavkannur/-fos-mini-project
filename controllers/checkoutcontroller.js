@@ -68,7 +68,7 @@ const checkoutController = async (req, res) => {
         city: req.body.city,
         phone: req.body.phone,
         paymentMethod: 'COD', // Cash on delivery
-        status: 'Pending', // Initial status
+        status: 'Order Placed', // Initial status
       });
 
       // Save the order to the database

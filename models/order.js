@@ -63,9 +63,19 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['Pending', 'Completed', 'Cancelled', 'Awaiting Payment', 'Paid'], // Added 'Paid'
-      default: 'Pending',
+      enum: [
+        'Order Placed',       // When the order is created
+        'Preparing',          // Kitchen preparing the order
+        'Ready for Pickup',   // For pickup orders
+        'Out for Delivery',   // When the order is picked up by delivery
+        'Delivered',          // Order successfully delivered
+        'Cancelled',          // If the order is canceled
+        'Awaiting Payment',   // Waiting for payment confirmation
+        'Paid',               // Payment completed
+      ],
+      default: 'Order Placed', // Default status when the order is created
     },
+    
     paymentStatus: {
       type: String,
       enum: ['Paid', 'Unpaid'], // Tracks payment state

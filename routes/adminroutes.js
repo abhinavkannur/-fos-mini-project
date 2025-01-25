@@ -7,7 +7,7 @@ const { renderaddproductform, addproduct, viewmenu, renderupdatemenu, updatemenu
 const { rendercategories, createcategory, deletecategory } = require('../controllers/category');
 const { renderslider, addslider, rendermanageslider, updateslider, deleteslider } = require('../controllers/bannercontrol');
 const { renderCoupon, createCoupon, applycoupencode } = require('../controllers/coupon');
-const { renderorder, renderAllOrders } = require('../controllers/ordercontroller');
+const { renderorder, renderAllOrders, deleteorder, updateorder } = require('../controllers/ordercontroller');
 
 
 
@@ -65,4 +65,6 @@ router.post('/apply-coupon',applycoupencode)
 
 
 router.get('/orders',renderAllOrders)
+router.post('/delete/:id',deleteorder)
+router.post('/update/:id',updateorder);
 module.exports=router;

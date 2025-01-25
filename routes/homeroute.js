@@ -7,6 +7,7 @@ const { getproduct } = require('../controllers/addproduct');
 const cartController=require('../controllers/cartcontrol');
 const { renderCheckout, checkoutController } = require('../controllers/checkoutcontroller');
 const { paymentsucess, cancelpayment } = require('../controllers/payment');
+const { userorder, deliveredOrders } = require('../controllers/ordercontroller');
 
 
 router.get('/',renderhomepage);
@@ -42,6 +43,10 @@ router.post('/checkout',checkoutController)
 
 router.get('/complete',paymentsucess);
 router.get('/cancel',cancelpayment)
+
+// order and details
+router.get('/userorder',userorder)
+router.get('/delivered-orders',deliveredOrders)
 
 
 
