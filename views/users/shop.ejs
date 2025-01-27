@@ -15,7 +15,6 @@
     <!-- Navbar -->
     <%- include('../partials/navbar') %>
 
-
     <!-- Breadcrumb Section -->
     <div class="breadcrumb-section breadcrumb-bg">
         <div class="container">
@@ -35,6 +34,20 @@
     <div class="product-section mt-150 mb-150">
         <div class="container">
 
+            <!-- Search Bar -->
+            <div class="row mb-4">
+                <div class="col-md-12 text-center">
+                    <input
+                        type="text"
+                        id="product-search"
+                        class="form-control"
+                        placeholder="Search for Food..."
+                        style="max-width: 400px; margin: 0 auto; padding: 10px; font-size: 16px;"
+                    />
+                </div>
+            </div>
+            <!-- End Search Bar -->
+
             <!-- Product Filters -->
             <div class="row">
                 <div class="col-md-12">
@@ -52,16 +65,16 @@
             </div>
 
             <!-- Product List -->
-            <div class="row product-lists">
+            <div class="row product-lists" id="product-list">
                 <% products.forEach(product => { %>
-                    <div class="col-lg-4 col-md-6 text-center <%= product.category.name.toLowerCase() %>">
+                    <div class="col-lg-4 col-md-6 text-center product-item <%= product.category.name.toLowerCase() %>">
                         <div class="single-product-item">
                             <div class="product-image">
                                 <a href="/product/<%= product._id %>">
                                     <img src="<%= product.image %>" alt="<%= product.name %>">
                                 </a>
                             </div>
-                            <h3><%= product.name %></h3>
+                            <h3 class="product-name"><%= product.name %></h3>
                             <p class="product-price"><span>Full</span> ₹<%= product.price %></p>
                             <button type="button" class="cart-btn add-to-cart" data-product-id="<%= product._id %>">
                                 <i class="fas fa-shopping-cart"></i> Add to cart
@@ -71,6 +84,13 @@
                 <% }); %>
             </div>
             <!-- End Product List -->
+
+            <!-- No Results Message -->
+            <div class="row" id="no-results" style="display: none;">
+                <div class="col-md-12 text-center">
+                    <p class="no-results-message">No results found for your search.</p>
+                </div>
+            </div>
 
         </div>
 
@@ -111,49 +131,42 @@
     <!-- Script -->
     <%- include('../partials/script') %>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   
     <script>
         $(document).ready(function () {
-            // Handle Add to Cart Button Click
-            $('.add-to-cart').on('click', function () {
-                const productId = $(this).data('product-id');
-    
-                $.ajax({
-                    url: '/cart/add', // Backend route to add to cart
-                    method: 'POST',
-                    data: { productId },
-                    success: function (response) {
-                        if (response.success) {
-                            // Show a success message in a notification area
-                            const notification = $('<div class="cart-notification">Item added to cart successfully!</div>');
-                            $('body').append(notification);
-                            notification.fadeOut(3000, function () {
-                                $(this).remove();
-                            });
-    
-                            // Update cart count in navbar
-                            $('#cart-item-count').text(response.cartItemCount);
-                        } else {
-                            // Show an error message in a notification area
-                            const notification = $('<div class="cart-notification error">' + response.message + '</div>');
-                            $('body').append(notification);
-                            notification.fadeOut(3000, function () {
-                                $(this).remove();
-                            });
-                        }
-                    },
-                    error: function () {
-                        // Show a generic error message in a notification area
-                        const notification = $('<div class="cart-notification error">Error adding product to cart. Please try again.</div>');
-                        $('body').append(notification);
-                        notification.fadeOut(3000, function () {
-                            $(this).remove();
-                        });
+            // Search Bar Functionality
+            $('#product-search').on('input', function () {
+                const searchQuery = $(this).val().toLowerCase().trim();
+                let found = false;
+
+                // Create an empty array to hold matching products
+                const matchingProducts = [];
+
+                // Loop through each product and show/hide based on the search query
+                $('.product-item').each(function () {
+                    const productName = $(this).find('.product-name').text().toLowerCase();
+                    
+                    if (productName.includes(searchQuery)) {
+                        found = true;
+                        matchingProducts.push($(this)); // Add matching product to the array
+                    } else {
+                        $(this).hide(); // Hide non-matching products
                     }
                 });
+
+                // Show matching products at the top
+                const productList = $('#product-list');
+                productList.prepend(matchingProducts);
+
+                // Show or hide the "No results found" message
+                if (found) {
+                    $('#no-results').hide();
+                    matchingProducts.forEach(product => product.show()); // Show matching products
+                } else {
+                    $('#no-results').show();
+                }
             });
         });
     </script>
-    
-
 </body>
 </html>

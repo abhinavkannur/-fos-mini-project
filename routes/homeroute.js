@@ -2,12 +2,13 @@ const express=require('express')
 const router=express.Router();
 
 const { renderabout, rendercontact,rendercart,rendersingleproduct,render404, contact, }=require('../controllers/homecontroller');
-const {renderloginpage, signup, verifyotp, login,renderforgotpassword, forgotpassword, forgotpasswordotp, resetpassword, renderuserdashbord, renderuserprofile, updateprofile, logout, renderhomepage}=require('../controllers/authcontroller');
+const {renderloginpage, signup, verifyotp, login,renderforgotpassword, forgotpassword, forgotpasswordotp, resetpassword, renderuserdashbord, renderuserprofile, updateprofile, logout, renderhomepage, loginout}=require('../controllers/authcontroller');
 const { getproduct } = require('../controllers/addproduct');
 const cartController=require('../controllers/cartcontrol');
 const { renderCheckout, checkoutController } = require('../controllers/checkoutcontroller');
 const { paymentsucess, cancelpayment } = require('../controllers/payment');
 const { userorder, deliveredOrders } = require('../controllers/ordercontroller');
+const setuser=require('../middlewares/setuser')
 
 
 router.get('/',renderhomepage);
@@ -17,7 +18,7 @@ router.post('/contact',contact)
 router.get('/menu',getproduct);
 router.get('/cart',rendercart);
 router.get('/checkout',renderCheckout);
-router.get('/singleproduct',rendersingleproduct);
+// router.get('/singleproduct',rendersingleproduct);
 router.get('/404',render404);
 router.get('/login',renderloginpage)
 router.post('/signup',signup);
@@ -32,9 +33,9 @@ router.get('/profile',renderuserprofile)
 router.post('/update-profile',updateprofile)
 router.post('/logout',logout)
 
-router.post('/cart/add',cartController.addcart);
-router.get('/cart1',cartController.rendercart)
-router.post('/cart/increase',cartController.increaseitem);
+router.post('/cart/add',setuser,cartController.addcart);
+router.get('/cart1',setuser,cartController.rendercart)
+router.post('/cart/increase',setuser,cartController.increaseitem);
 router.post('/cart/decrease',cartController.decreaseitem);
 router.post('/cartremove',cartController.removeitem)
 
@@ -47,6 +48,8 @@ router.get('/cancel',cancelpayment)
 // order and details
 router.get('/userorder',userorder)
 router.get('/delivered-orders',deliveredOrders)
+
+router.get('/loginout',loginout)
 
 
 

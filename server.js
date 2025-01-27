@@ -5,6 +5,7 @@ const path=require('path');
 const app=express();
 const bodyparser=require('body-parser');
 const cookieparser=require('cookie-parser');
+const setUser=require('./middlewares/setuser')
 
 const stripe = require('stripe')(process.env.STRIPE_SECRETKEY); // Replace 'your-secret-key' with your actual Stripe secret key
 
@@ -20,6 +21,7 @@ mongoose.connect(process.env.MONGODB_URI)
 .catch(err=>console.error('Mongodb connection error:',err))
 
 
+
 //template engine setup
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'));
@@ -29,11 +31,12 @@ app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended:true}));
 app.use(cookieparser());
 //server static files
+app.use(setUser);
 app.use(express.static(path.join(__dirname,'public')));
-
 // using routes
 app.use('/',homeroutes);
 app.use('/',adminroutes);
+
 
 
 //start server

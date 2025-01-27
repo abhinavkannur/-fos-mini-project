@@ -7,7 +7,8 @@ const nodemailer=require('nodemailer');
 const crypto=require('crypto');
 const Slider=require('../models/bannermodel')
 
-const Banner=require('../models/bannermodel')
+const Banner=require('../models/bannermodel');
+const { log } = require('console');
 
 // nodemailer setup
 const transporter=nodemailer.createTransport({
@@ -24,14 +25,17 @@ const renderhomepage = async (req, res) => {
   try {
     // Fetch the slider data from the database
     const sliders = await Banner.find();
-
+    console.log(res.locals.user)
+    // if(res.locals.user){
+    //   res.render('users/index_2', { sliders, success: null, error: null, user:res.locals.user });
+    // }
     // Render the page and pass the sliders
-    res.render('users/index_2', { sliders, success: null, error: null });
+    res.render('users/index_2', { sliders, success: null, error: null , user : res.locals.user});
   } catch (error) {
     console.error('Error fetching sliders:', error);
 
     // Render the page with an error message if fetching sliders fails
-    res.render('users/index_2', { sliders: [], success: null, error: 'Failed to load sliders' });
+    res.render('users/index_2', { sliders: [], success: null, error: 'Failed to load sliders', user : null });
   }
 };
 
@@ -400,10 +404,19 @@ const forgotpassword=async(req,res)=>{
       }
 
       //logout
-      const logout=(req,res)=>{
+      const logout=async (req,res)=>{
         res.clearCookie('token');
-        res.redirect('/');
+        const sliders = await Banner.find();
+        res.render('users/index_2', { sliders, success: null, error: null , user : null});
       };
+
+      const loginout= async(req,res)=>{
+        res.clearCookie('token');
+        const sliders = await Banner.find();
+        res.render('users/index_2', { sliders, success: null, error: null , user : null});
+      };
+
+      
         
    
 
@@ -411,4 +424,4 @@ const forgotpassword=async(req,res)=>{
 
 
 
-module.exports={renderhomepage,forgotpassword,signup,verifyotp,login,renderloginpage,renderforgotpassword,forgotpasswordotp,resetpassword,renderuserdashbord,renderuserprofile,updateprofile,logout}
+module.exports={loginout,renderhomepage,forgotpassword,signup,verifyotp,login,renderloginpage,renderforgotpassword,forgotpasswordotp,resetpassword,renderuserdashbord,renderuserprofile,updateprofile,logout}
